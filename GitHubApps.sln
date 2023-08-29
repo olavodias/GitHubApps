@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3C9D8ABA-89C4-4BDB-8171-09A3F326AF58}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubApps", "src\GitHubApps\GitHubApps.csproj", "{52117D67-F6BA-4305-921C-FDEECE5141E7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubApps.EventMap", "src\GitHubApps.EventMap\GitHubApps.EventMap.csproj", "{C9EB3731-9744-4339-B305-131A2CB5328B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52117D67-F6BA-4305-921C-FDEECE5141E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52117D67-F6BA-4305-921C-FDEECE5141E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52117D67-F6BA-4305-921C-FDEECE5141E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52117D67-F6BA-4305-921C-FDEECE5141E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9EB3731-9744-4339-B305-131A2CB5328B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9EB3731-9744-4339-B305-131A2CB5328B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9EB3731-9744-4339-B305-131A2CB5328B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9EB3731-9744-4339-B305-131A2CB5328B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

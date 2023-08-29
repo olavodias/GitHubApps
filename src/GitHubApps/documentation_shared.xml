@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- This document contains documentation tags to be reused across the development -->
+<Documentation>
+    <!-- Default XML Comment for the IGitHub interfaces -->
+    <Interfaces>
+        <summary>Interface to be implemented by controllers that want to handle the given event</summary>
+    </Interfaces>
+    <!-- Default XML Comment for the WebhookControllerBase.RouteEvent() -->
+    <RouteEvent>
+        <summary>Function to route an event/action</summary>
+        <param name="event">An instance of the class that implements the event interface</param>
+        <param name="payloadHeaders">The payload object containing the headers</param>
+        <param name="action">The action to be called</param>
+        <param name="requestBody">The body of the request</param>
+        <returns>An <see cref="EventResult"/> object with the results of the action</returns>
+        <exception cref="Exceptions.UnhandledEventActionException">Thrown when there is no handler for the given <paramref name="action"/></exception>
+    </RouteEvent>
+    <!-- Default XML Comment for any event with no actions handler -->
+    <EventActionLessHandlers>
+        <param name="payload">The payload of the event</param>
+        <returns>An <see cref="EventResult"/> object with the results of the event</returns>
+        <exception cref="Exceptions.UnhandledEventException">Thrown when the event does not have any specific code to handle it</exception>
+    </EventActionLessHandlers>
+    <!-- Default XML Comment for any event/action handler -->
+    <ActionHandlers>
+        <param name="payload">The payload of the event</param>
+        <returns>An <see cref="EventResult"/> object with the results of the action</returns>
+        <exception cref="Exceptions.UnhandledEventActionException">Thrown when the event/action does not have any specific code to handle it</exception>
+    </ActionHandlers>
+    <!-- Default XML Comment for the Error Message Parameter -->
+    <ErrorMessages>
+        <Parameters name="default_error_message">
+            <summary>A constant representing the default error message for the error</summary>
+        </Parameters>
+        <Parameters name="message">
+            <param name="message">Gets a message that describes the current exception.</param>
+        </Parameters>
+        <Parameters name="innerException">
+            <param name="innerException">Gets the <see cref="System.Exception"/> instance that caused the current exception.</param>
+        </Parameters>
+    </ErrorMessages>
+    <!-- Repetitive Properties -->
+    <RepetitiveProperties>
+        <RepetitiveProperty name="ID">
+            <summary>The Unique Identifier</summary>
+        </RepetitiveProperty>
+        <RepetitiveProperty name="NodeID">
+            <summary>The Node Identifier</summary>
+        </RepetitiveProperty>
+        <RepetitiveProperty name="PerformedViaGitHubApp">
+            <summary>
+            GitHub apps are a new way to extend GitHub. They can be installed directly on organizations and user accounts and granted access to specific repositories.
+            They come with granular permissions and built-in webhooks. GitHub Apps are first class actors within GitHub.
+            </summary>
+        </RepetitiveProperty>
+        <RepetitiveProperty name="PullRequest">
+            <summary>
+            Represents a Pull Request itself
+            </summary>
+        </RepetitiveProperty>
+        <RepetitiveProperty name="Reactions">
+            <summary>
+            The reactions to the topic
+            </summary>
+        </RepetitiveProperty>
+    </RepetitiveProperties>
+</Documentation>
