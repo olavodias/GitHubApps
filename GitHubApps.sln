@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubApps", "src\GitHubApp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubApps.EventMap", "src\GitHubApps.EventMap\GitHubApps.EventMap.csproj", "{C9EB3731-9744-4339-B305-131A2CB5328B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GitHubApps.Testing", "test\GitHubApps.Testing\GitHubApps.Testing.csproj", "{F27B79F0-580B-4DD2-A0EE-F24EA72C7BB8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,5 +31,9 @@ Global
 		{C9EB3731-9744-4339-B305-131A2CB5328B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9EB3731-9744-4339-B305-131A2CB5328B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9EB3731-9744-4339-B305-131A2CB5328B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F27B79F0-580B-4DD2-A0EE-F24EA72C7BB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F27B79F0-580B-4DD2-A0EE-F24EA72C7BB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F27B79F0-580B-4DD2-A0EE-F24EA72C7BB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F27B79F0-580B-4DD2-A0EE-F24EA72C7BB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

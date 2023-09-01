@@ -1,0 +1,46 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="2.2.8" />
+    <PackageReference Include="MSTest.TestFramework" Version="2.2.8" />
+    <PackageReference Include="coverlet.collector" Version="3.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Payload\" />
+    <None Remove="Payload\Push\" />
+    <None Remove="Payload\CheckSuite\" />
+    <None Remove="Payload\PullRequest\" />
+    <None Remove="Payload\IssueComment\" />
+    <None Remove="Payload\Star\" />
+    <None Remove="Payload\Watch\" />
+    <None Remove="Payload\Milestone\" />
+    <None Remove="Payload\Issues\" />
+    <None Remove="Payload\Installation\" />
+    <None Remove="Payload\Create\" />
+    <None Remove="Payload\Ping\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Payload\" />
+    <Folder Include="Payload\Push\" />
+    <Folder Include="Payload\CheckSuite\" />
+    <Folder Include="Payload\PullRequest\" />
+    <Folder Include="Payload\IssueComment\" />
+    <Folder Include="Payload\Star\" />
+    <Folder Include="Payload\Watch\" />
+    <Folder Include="Payload\Milestone\" />
+    <Folder Include="Payload\Issues\" />
+    <Folder Include="Payload\Installation\" />
+    <Folder Include="Payload\Create\" />
+    <Folder Include="Payload\Ping\" />
+  </ItemGroup>
+</Project>
