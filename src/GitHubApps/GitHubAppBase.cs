@@ -121,6 +121,9 @@ public abstract class GitHubAppBase : IGitHubApp,
                 case GitHubEvents.EVENT_CREATE:
                     return await Task.FromResult(OnEventCreate(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventCreate>.ConvertFromJSON(body)))).ConfigureAwait(false);
 
+                case GitHubEvents.EVENT_FORK:
+                    return await Task.FromResult(OnEventFork(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventFork>.ConvertFromJSON(body)))).ConfigureAwait(false);
+
                 default:
                     break;
 
@@ -865,4 +868,16 @@ public abstract class GitHubAppBase : IGitHubApp,
     }
 
     #endregion Event Create (No Actions)
+
+    #region Event Fork (No Actions)
+
+    /// <inheritdoc cref="GitHubEventFork"/>
+    /// <include file='documentation_shared.xml' path='Documentation/EventActionLessHandlers/*'/>
+    public virtual EventResult OnEventFork(GitHubDelivery<GitHubEventFork> payload)
+    {
+        throw new UnhandledEventException(payload.Event);
+    }
+
+    #endregion Event FOrk (No Actions)
+
 }

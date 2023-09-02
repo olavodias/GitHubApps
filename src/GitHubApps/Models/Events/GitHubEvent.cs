@@ -116,6 +116,8 @@ public static class GitHubEvents
     public const string EVENT_REPOSITORY = "repository";
     /// <inheritdoc cref="GitHubApps.Models.Events.GitHubEventCreate"/>
     public const string EVENT_CREATE = "create";
+    /// <inheritdoc cref="GitHubApps.Models.Events.GitHubEventFork"/>
+    public const string EVENT_FORK = "fork";
 }
 
 /// <summary>
