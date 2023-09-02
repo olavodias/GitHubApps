@@ -28,6 +28,7 @@
     <None Remove="Payload\Installation\" />
     <None Remove="Payload\Create\" />
     <None Remove="Payload\Ping\" />
+    <None Remove="Payload\Fork\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Payload\" />
@@ -42,6 +43,7 @@
     <Folder Include="Payload\Installation\" />
     <Folder Include="Payload\Create\" />
     <Folder Include="Payload\Ping\" />
+    <Folder Include="Payload\Fork\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\GitHubApps\GitHubApps.csproj" />
@@ -138,6 +140,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Payload\Watch\Watch.Started.01.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Fork\Fork.01.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
