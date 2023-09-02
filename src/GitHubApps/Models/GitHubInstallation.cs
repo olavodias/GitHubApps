@@ -87,12 +87,15 @@ public sealed class GitHubInstallation
 	/// </summary>
 	public DateTime? SuspendedAt { get; set; }
 
-	#endregion Properties
+    /// <include file="documentation_shared.xml" path="Documentation/RepetitiveProperties/RepetitiveProperty[@name=NodeID]"/>
+    public string? NodeID { get; set; }
 
-	/// <summary>
-	/// Initializes a new instance of the <see cref="GitHubInstallation"/> class
-	/// </summary>
-	public GitHubInstallation()
+    #endregion Properties
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GitHubInstallation"/> class
+    /// </summary>
+    public GitHubInstallation()
 	{
 
 	

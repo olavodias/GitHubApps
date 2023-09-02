@@ -9,81 +9,81 @@ internal interface IGitHubEventIssues
     /// An issue was assigned to an user
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesAssigned(GitHubPayload<GitHubEventIssuesAssigned> payload);
+    EventResult OnEventIssuesAssigned(GitHubDelivery<GitHubEventIssuesAssigned> payload);
     /// <summary>
     /// An issue was closed
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesClosed(GitHubPayload<GitHubEventIssues> payload);
+    EventResult OnEventIssuesClosed(GitHubDelivery<GitHubEventIssues> payload);
     /// <summary>
     /// An issue was deleted
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesDeleted(GitHubPayload<GitHubEventIssues> payload);
+    EventResult OnEventIssuesDeleted(GitHubDelivery<GitHubEventIssues> payload);
     /// <summary>
     /// An issue was removed from a milestone
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesDemilestoned(GitHubPayload<GitHubEventIssuesMilestoned> payload);
+    EventResult OnEventIssuesDemilestoned(GitHubDelivery<GitHubEventIssuesMilestoned> payload);
     /// <summary>
     /// The title or body of an issue was edited
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesEdited(GitHubPayload<GitHubEventIssuesEdited> payload);
+    EventResult OnEventIssuesEdited(GitHubDelivery<GitHubEventIssuesEdited> payload);
     /// <summary>
     /// A label was added to an issue
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesLabeled(GitHubPayload<GitHubEventIssuesLabeled> payload);
+    EventResult OnEventIssuesLabeled(GitHubDelivery<GitHubEventIssuesLabeled> payload);
     /// <summary>
     /// Conversation on an issue was locked
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesLocked(GitHubPayload<GitHubEventIssues> payload);
+    EventResult OnEventIssuesLocked(GitHubDelivery<GitHubEventIssues> payload);
     /// <summary>
     /// An issue was added to a milestone
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesMilestoned(GitHubPayload<GitHubEventIssuesMilestoned> payload);
+    EventResult OnEventIssuesMilestoned(GitHubDelivery<GitHubEventIssuesMilestoned> payload);
     /// <summary>
     /// An issue was created
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesOpened(GitHubPayload<GitHubEventIssuesChanged> payload);
+    EventResult OnEventIssuesOpened(GitHubDelivery<GitHubEventIssuesChanged> payload);
     /// <summary>
     /// An issue was pinned to a repository
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesPinned(GitHubPayload<GitHubEventIssues> payload);
+    EventResult OnEventIssuesPinned(GitHubDelivery<GitHubEventIssues> payload);
     /// <summary>
     /// A closed issue was reopened
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesReopened(GitHubPayload<GitHubEventIssues> payload);
+    EventResult OnEventIssuesReopened(GitHubDelivery<GitHubEventIssues> payload);
     /// <summary>
     /// An issue was transferred to another repository
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesTransferred(GitHubPayload<GitHubEventIssuesChanged> payload);
+    EventResult OnEventIssuesTransferred(GitHubDelivery<GitHubEventIssuesChanged> payload);
     /// <summary>
     /// A user was unassigned from an issue
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesUnassigned(GitHubPayload<GitHubEventIssuesAssigned> payload);
+    EventResult OnEventIssuesUnassigned(GitHubDelivery<GitHubEventIssuesAssigned> payload);
     /// <summary>
     /// A label was removed from an issue
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesUnlabeled(GitHubPayload<GitHubEventIssuesLabeled> payload);
+    EventResult OnEventIssuesUnlabeled(GitHubDelivery<GitHubEventIssuesLabeled> payload);
     /// <summary>
     /// Conversation on an issue was unlocked
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesUnlocked(GitHubPayload<GitHubEventIssues> payload);
+    EventResult OnEventIssuesUnlocked(GitHubDelivery<GitHubEventIssues> payload);
     /// <summary>
     /// An issue was unpinned from a repository
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesUnpinned(GitHubPayload<GitHubEventIssues> payload);
+    EventResult OnEventIssuesUnpinned(GitHubDelivery<GitHubEventIssues> payload);
 }
 

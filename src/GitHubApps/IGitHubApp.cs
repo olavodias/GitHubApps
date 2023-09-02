@@ -20,9 +20,9 @@ public interface IGitHubApp
     /// <summary>
     /// The function to process a request
     /// </summary>
-    /// <param name="payloadHeaders">An <see cref="GitHubPayload"/> with the parsed headers</param>
+    /// <param name="payloadHeaders">An <see cref="GitHubDelivery"/> with the parsed headers</param>
     /// <param name="body">The request body</param>
     /// <returns></returns>
-    Task<EventResult> ProcessRequest(GitHubPayload payloadHeaders, string body);
+    Task<EventResult> ProcessRequest(GitHubDelivery payloadHeaders, string body);
 }
 

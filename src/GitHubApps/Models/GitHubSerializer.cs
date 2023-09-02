@@ -3,38 +3,62 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using GitHubApps.Exceptions;
 
-namespace GitHubApps.Models
-{
-	internal static class GitHubSerializer
+namespace GitHubApps.Models;
+
+/// <summary>
+/// A class to perform serialization of the GitHub Objects
+/// </summary>
+internal static class GitHubSerializer
     {
-		public static string DefaultDateFormatString = "yyyy-MM-dd HH:mm:ss";
-		public static DefaultContractResolver DefaultContractResolver = new()
-        {
-			NamingStrategy = new SnakeCaseNamingStrategy()
-		};
-
-		/// <summary>
-		/// Create the object based on a JSON data
-		/// </summary>
-		/// <typeparam name="TObject">The type of the object being converted</typeparam>
-		/// <param name="json">The contents to be deserealized</param>
-		/// <returns>An instance of <typeparamref name="TObject"/></returns>
-		public static TObject? ConvertFromJson<TObject>(string json)
+	/// <summary>
+	/// The default settings for serialization
+	/// </summary>
+	public static JsonSerializerSettings DefaultSerializerSettings = new()
+	{
+		ContractResolver = new DefaultContractResolver()
 		{
-			try
-			{
-				return JsonConvert.DeserializeObject<TObject>(json, new JsonSerializerSettings
-				{
-					ContractResolver = GitHubSerializer.DefaultContractResolver,
-					DateFormatString = GitHubSerializer.DefaultDateFormatString
-				});
-            }
-			catch (Exception ex)
-			{
-				throw new SerializationException(ex);
-			}
-		}
+			NamingStrategy = new SnakeCaseNamingStrategy()
+		},
+		DateFormatString = "yyyy-MM-dd HH:mm:ss"
+	};
 
+	/// <summary>
+	/// Create the payload object based on a JSON data
+	/// </summary>
+	/// <typeparam name="TPayload">The type of the payload being converted</typeparam>
+	/// <param name="json">The contents to be deserealized</param>
+	/// <returns>An instance of <typeparamref name="TPayload"/></returns>
+	/// <exception cref="SerializationException">Thrown when the serialization was not succesfull</exception>
+	public static TPayload? ConvertFromJson<TPayload>(string json)
+	{
+		try
+		{
+			return JsonConvert.DeserializeObject<TPayload>(json, DefaultSerializerSettings);
+        }
+		catch (Exception ex)
+		{
+			throw new SerializationException(ex);
+		}
 	}
+
+    /// <summary>
+    /// Create the delivery object based on a JSON data
+    /// </summary>
+    /// <typeparam name="TPayload">The type of the payload being converted</typeparam>
+    /// <param name="json">The contents to be deserealized</param>
+    /// <returns>An instance of <typeparamref name="TPayload"/></returns>
+	/// <exception cref="SerializationException">Thrown when the serialization was not succesfull</exception>
+    public static GitHubDelivery<TPayload>? ConvertFromJsonToGitHubPayload<TPayload>(string json)
+	{
+		try
+		{
+            return JsonConvert.DeserializeObject<GitHubDelivery<TPayload>>(json, DefaultSerializerSettings);
+        }
+		catch (Exception ex)
+		{
+            throw new SerializationException(ex);
+        }
+	}
+	
 }
 

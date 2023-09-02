@@ -42,7 +42,8 @@ public sealed class GitHubRepository
 	/// <summary>
 	/// Whether the repository is archived
 	/// </summary>
-	public bool? Archived { get; set; }
+	[JsonProperty("archived")]
+	public bool? IsArchived { get; set; }
 	/// <summary>
 	/// The Asignees URL
 	/// </summary>
@@ -68,9 +69,13 @@ public sealed class GitHubRepository
 	/// </summary>
 	public string? CommentsURL { get; set; }
 	/// <summary>
-	/// The COmmits URL
+	/// The Commits URL
 	/// </summary>
 	public string? CommitsURL { get; set; }
+	/// <summary>
+	/// The Compare URL
+	/// </summary>
+	public string? CompareURL { get; set; }
 	/// <summary>
 	/// The Contents URL
 	/// </summary>
@@ -102,7 +107,8 @@ public sealed class GitHubRepository
 	/// <summary>
 	/// Whether or not this repository is disabled
 	/// </summary>
-	public bool? Disabled { get; set; }
+	[JsonProperty("disabled")]
+	public bool? IsDisabled { get; set; }
 	/// <summary>
 	/// The Downloads URL
 	/// </summary>
@@ -114,7 +120,8 @@ public sealed class GitHubRepository
 	/// <summary>
 	/// Whether it is a fork of another repository or not
 	/// </summary>
-	public bool? Fork { get; set; }
+	[JsonProperty("fork")]
+	public bool? IsFork { get; set; }
 	/// <summary>
 	/// The count of forks
 	/// </summary>
@@ -215,9 +222,9 @@ public sealed class GitHubRepository
 	/// </summary>
 	public string? Language { get; set; }
 	/// <summary>
-	/// The Language URL
+	/// The Languages URL
 	/// </summary>
-	public string? LanguageURL { get; set; }
+	public string? LanguagesURL { get; set; }
 	/// <summary>
 	/// The License Information
 	/// </summary>
@@ -279,7 +286,8 @@ public sealed class GitHubRepository
 	/// <summary>
 	/// Defines whether the repository is private or not
 	/// </summary>
-	public bool? Private { get; set; }
+	[JsonProperty("private")]
+	public bool? IsPrivate { get; set; }
 	/// <summary>
 	/// Whether the repository is public or not
 	/// </summary>
@@ -390,7 +398,8 @@ public sealed class GitHubRepository
 	/// <summary>
 	/// Whether to require contributors to sign off on web-based commits
 	/// </summary>
-	public bool? WebCommitSignoffRequired { get; set; }
+	[JsonProperty("web_commit_signoff_required")]
+	public bool? IsWebCommitSignoffRequired { get; set; }
 
 	#endregion Properties
 

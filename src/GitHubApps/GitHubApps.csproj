@@ -63,6 +63,7 @@
     <None Remove="Models\Events\Push\" />
     <None Remove="Models\Events\Release\" />
     <None Remove="Models\Events\Repository\" />
+    <None Remove="Models\Events\Create\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -79,5 +80,6 @@
     <Folder Include="Models\Events\Push\" />
     <Folder Include="Models\Events\Release\" />
     <Folder Include="Models\Events\Repository\" />
+    <Folder Include="Models\Events\Create\" />
   </ItemGroup>
 </Project>

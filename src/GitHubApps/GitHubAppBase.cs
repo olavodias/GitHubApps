@@ -1,6 +1,4 @@
-﻿//#pragma warning disable CA1822
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,7 +33,7 @@ public abstract class GitHubAppBase : IGitHubApp,
     public virtual async Task<EventResult> ProcessRequest(Dictionary<string, string> headers, string body)
 	{
         // Create the GitHubPayload object
-        var payloadHeaders = new GitHubPayload();
+        var payloadHeaders = new GitHubDelivery();
 
         // Process Request Headers
         foreach (var requestHeader in headers)
@@ -60,7 +58,7 @@ public abstract class GitHubAppBase : IGitHubApp,
 	}
 
     /// <inheritdoc/>
-    public async Task<EventResult> ProcessRequest(GitHubPayload payloadHeaders, string body)
+    public async Task<EventResult> ProcessRequest(GitHubDelivery payloadHeaders, string body)
     {
         // Route the Event/Action
         try
@@ -108,7 +106,7 @@ public abstract class GitHubAppBase : IGitHubApp,
                     break;
 
                 case GitHubEvents.EVENT_PUSH:
-                    return await Task.FromResult(OnEventPush(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPush>.ConvertFromJSON(body)))).ConfigureAwait(false);
+                    return await Task.FromResult(OnEventPush(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPush>.ConvertFromJSON(body)))).ConfigureAwait(false);
 
                 case GitHubEvents.EVENT_RELEASE:
                     if (this is IGitHubEventRelease eventRelease)
@@ -119,6 +117,9 @@ public abstract class GitHubAppBase : IGitHubApp,
                     if (this is IGitHubEventRepository eventRepository)
                         return await Task.FromResult(RouteEvent(eventRepository, payloadHeaders, GetActionFromRequest(body), body)).ConfigureAwait(false);
                     break;
+
+                case GitHubEvents.EVENT_CREATE:
+                    return await Task.FromResult(OnEventCreate(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventCreate>.ConvertFromJSON(body)))).ConfigureAwait(false);
 
                 default:
                     break;
@@ -206,10 +207,10 @@ public abstract class GitHubAppBase : IGitHubApp,
     #region Event Installation
 
     /// <include file='documentation_shared.xml' path='Documentation/RouteEvent/*'/>
-    private EventResult RouteEvent(IGitHubEventInstallation @event, GitHubPayload payloadHeaders, string action, string requestBody)
+    private EventResult RouteEvent(IGitHubEventInstallation @event, GitHubDelivery payloadHeaders, string action, string requestBody)
     {
         // Retrieve Payload. If it doesn't serialize properly, return an Error
-        var gitHubPayload = payloadHeaders.ConvertToTypedPayload(GitHubEventInstallation.ConvertFromJSON(requestBody)) ??
+        var gitHubPayload = payloadHeaders.ConvertToTypedDelivery(GitHubEventInstallation.ConvertFromJSON(requestBody)) ??
                             throw new Exception("Unable to read payload");
 
         return action switch
@@ -225,31 +226,31 @@ public abstract class GitHubAppBase : IGitHubApp,
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventInstallationCreated(GitHubPayload<GitHubEventInstallation> payload)
+    public virtual EventResult OnEventInstallationCreated(GitHubDelivery<GitHubEventInstallation> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_CREATED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventInstallationDeleted(GitHubPayload<GitHubEventInstallation> payload)
+    public virtual EventResult OnEventInstallationDeleted(GitHubDelivery<GitHubEventInstallation> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_DELETED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventInstallationNewPermissionsAccepted(GitHubPayload<GitHubEventInstallation> payload)
+    public virtual EventResult OnEventInstallationNewPermissionsAccepted(GitHubDelivery<GitHubEventInstallation> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_NEW_PERMISSIONS_ACCEPTED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventInstallationSuspend(GitHubPayload<GitHubEventInstallation> payload)
+    public virtual EventResult OnEventInstallationSuspend(GitHubDelivery<GitHubEventInstallation> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_SUSPEND);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventInstallationUnsuspend(GitHubPayload<GitHubEventInstallation> payload)
+    public virtual EventResult OnEventInstallationUnsuspend(GitHubDelivery<GitHubEventInstallation> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_UNSUSPEND);
     }
@@ -260,122 +261,122 @@ public abstract class GitHubAppBase : IGitHubApp,
     #region Event Issues
 
     /// <include file='documentation_shared.xml' path='Documentation/RouteEvent/*'/>
-    private EventResult RouteEvent(IGitHubEventIssues @event, GitHubPayload payloadHeaders, string action, string requestBody)
+    private EventResult RouteEvent(IGitHubEventIssues @event, GitHubDelivery payloadHeaders, string action, string requestBody)
     {
         return action switch
         {
-            GitHubEventActions.EVENT_ACTION_OPENED => @event.OnEventIssuesOpened(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssuesChanged>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_TRANSFERRED => @event.OnEventIssuesTransferred(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssuesChanged>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_ASSIGNED => @event.OnEventIssuesAssigned(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssuesAssigned>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_UNASSIGNED => @event.OnEventIssuesUnassigned(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssuesAssigned>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_CLOSED => @event.OnEventIssuesClosed(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventIssuesDeleted(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_LOCKED => @event.OnEventIssuesLocked(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_PINNED => @event.OnEventIssuesPinned(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_REOPENED => @event.OnEventIssuesReopened(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_UNLOCKED => @event.OnEventIssuesUnlocked(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_UNPINNED => @event.OnEventIssuesUnpinned(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_MILESTONED => @event.OnEventIssuesMilestoned(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssuesMilestoned>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_DEMILESTONED => @event.OnEventIssuesDemilestoned(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssuesMilestoned>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventIssuesEdited(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssuesEdited>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_LABELED => @event.OnEventIssuesLabeled(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssuesLabeled>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_UNLABELED => @event.OnEventIssuesUnlabeled(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssuesLabeled>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_OPENED => @event.OnEventIssuesOpened(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesChanged>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_TRANSFERRED => @event.OnEventIssuesTransferred(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesChanged>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_ASSIGNED => @event.OnEventIssuesAssigned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesAssigned>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_UNASSIGNED => @event.OnEventIssuesUnassigned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesAssigned>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_CLOSED => @event.OnEventIssuesClosed(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventIssuesDeleted(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_LOCKED => @event.OnEventIssuesLocked(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_PINNED => @event.OnEventIssuesPinned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_REOPENED => @event.OnEventIssuesReopened(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_UNLOCKED => @event.OnEventIssuesUnlocked(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_UNPINNED => @event.OnEventIssuesUnpinned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_MILESTONED => @event.OnEventIssuesMilestoned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesMilestoned>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_DEMILESTONED => @event.OnEventIssuesDemilestoned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesMilestoned>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventIssuesEdited(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesEdited>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_LABELED => @event.OnEventIssuesLabeled(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesLabeled>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_UNLABELED => @event.OnEventIssuesUnlabeled(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesLabeled>.ConvertFromJSON(requestBody))),
             _ => throw new UnhandledEventActionException(payloadHeaders.Event, action),
         };
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesAssigned(GitHubPayload<GitHubEventIssuesAssigned> payload)
+    public virtual EventResult OnEventIssuesAssigned(GitHubDelivery<GitHubEventIssuesAssigned> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_ASSIGNED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesClosed(GitHubPayload<GitHubEventIssues> payload)
+    public virtual EventResult OnEventIssuesClosed(GitHubDelivery<GitHubEventIssues> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_CLOSED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesDeleted(GitHubPayload<GitHubEventIssues> payload)
+    public virtual EventResult OnEventIssuesDeleted(GitHubDelivery<GitHubEventIssues> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_DELETED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesDemilestoned(GitHubPayload<GitHubEventIssuesMilestoned> payload)
+    public virtual EventResult OnEventIssuesDemilestoned(GitHubDelivery<GitHubEventIssuesMilestoned> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_DEMILESTONED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesEdited(GitHubPayload<GitHubEventIssuesEdited> payload)
+    public virtual EventResult OnEventIssuesEdited(GitHubDelivery<GitHubEventIssuesEdited> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_EDITED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesLabeled(GitHubPayload<GitHubEventIssuesLabeled> payload)
+    public virtual EventResult OnEventIssuesLabeled(GitHubDelivery<GitHubEventIssuesLabeled> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_LABELED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesLocked(GitHubPayload<GitHubEventIssues> payload)
+    public virtual EventResult OnEventIssuesLocked(GitHubDelivery<GitHubEventIssues> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_LOCKED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesMilestoned(GitHubPayload<GitHubEventIssuesMilestoned> payload)
+    public virtual EventResult OnEventIssuesMilestoned(GitHubDelivery<GitHubEventIssuesMilestoned> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_MILESTONED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesOpened(GitHubPayload<GitHubEventIssuesChanged> payload)
+    public virtual EventResult OnEventIssuesOpened(GitHubDelivery<GitHubEventIssuesChanged> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_OPENED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesPinned(GitHubPayload<GitHubEventIssues> payload)
+    public virtual EventResult OnEventIssuesPinned(GitHubDelivery<GitHubEventIssues> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_PINNED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesReopened(GitHubPayload<GitHubEventIssues> payload)
+    public virtual EventResult OnEventIssuesReopened(GitHubDelivery<GitHubEventIssues> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_REOPENED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesTransferred(GitHubPayload<GitHubEventIssuesChanged> payload)
+    public virtual EventResult OnEventIssuesTransferred(GitHubDelivery<GitHubEventIssuesChanged> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_TRANSFERRED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesUnassigned(GitHubPayload<GitHubEventIssuesAssigned> payload)
+    public virtual EventResult OnEventIssuesUnassigned(GitHubDelivery<GitHubEventIssuesAssigned> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_UNASSIGNED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesUnlabeled(GitHubPayload<GitHubEventIssuesLabeled> payload)
+    public virtual EventResult OnEventIssuesUnlabeled(GitHubDelivery<GitHubEventIssuesLabeled> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_UNLABELED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesUnlocked(GitHubPayload<GitHubEventIssues> payload)
+    public virtual EventResult OnEventIssuesUnlocked(GitHubDelivery<GitHubEventIssues> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_UNLOCKED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesUnpinned(GitHubPayload<GitHubEventIssues> payload)
+    public virtual EventResult OnEventIssuesUnpinned(GitHubDelivery<GitHubEventIssues> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_UNPINNED);
     }
@@ -385,31 +386,31 @@ public abstract class GitHubAppBase : IGitHubApp,
     #region Event Issue Comment
 
     /// <include file='documentation_shared.xml' path='Documentation/RouteEvent/*'/>
-    private EventResult RouteEvent(IGitHubEventIssueComment @event, GitHubPayload payloadHeaders, string action, string requestBody)
+    private EventResult RouteEvent(IGitHubEventIssueComment @event, GitHubDelivery payloadHeaders, string action, string requestBody)
     {
         return action switch
         {
-            GitHubEventActions.EVENT_ACTION_CREATED => @event.OnEventIssueCommentCreated(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssueComment>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventIssueCommentDeleted(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssueComment>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventIssueCommentEdited(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventIssueCommentEdited>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_CREATED => @event.OnEventIssueCommentCreated(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssueComment>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventIssueCommentDeleted(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssueComment>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventIssueCommentEdited(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssueCommentEdited>.ConvertFromJSON(requestBody))),
             _ => throw new UnhandledEventActionException(payloadHeaders.Event, action),
         };
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssueCommentCreated(GitHubPayload<GitHubEventIssueComment> payload)
+    public virtual EventResult OnEventIssueCommentCreated(GitHubDelivery<GitHubEventIssueComment> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_CREATED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssueCommentDeleted(GitHubPayload<GitHubEventIssueComment> payload)
+    public virtual EventResult OnEventIssueCommentDeleted(GitHubDelivery<GitHubEventIssueComment> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_DELETED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssueCommentEdited(GitHubPayload<GitHubEventIssueCommentEdited> payload)
+    public virtual EventResult OnEventIssueCommentEdited(GitHubDelivery<GitHubEventIssueCommentEdited> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_EDITED);
     }
@@ -419,31 +420,31 @@ public abstract class GitHubAppBase : IGitHubApp,
     #region Event Label
 
     /// <include file='documentation_shared.xml' path='Documentation/RouteEvent/*'/>
-    private EventResult RouteEvent(IGitHubEventLabel @event, GitHubPayload payloadHeaders, string action, string requestBody)
+    private EventResult RouteEvent(IGitHubEventLabel @event, GitHubDelivery payloadHeaders, string action, string requestBody)
     {
         return action switch
         {
-            GitHubEventActions.EVENT_ACTION_CREATED => @event.OnEventLabelCreated(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventLabel>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventLabelDeleted(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventLabel>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventLabelEdited(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventLabelEdited>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_CREATED => @event.OnEventLabelCreated(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventLabel>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventLabelDeleted(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventLabel>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventLabelEdited(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventLabelEdited>.ConvertFromJSON(requestBody))),
             _ => throw new UnhandledEventActionException(payloadHeaders.Event, action),
         };
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventLabelCreated(GitHubPayload<GitHubEventLabel> payload)
+    public virtual EventResult OnEventLabelCreated(GitHubDelivery<GitHubEventLabel> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_CREATED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventLabelDeleted(GitHubPayload<GitHubEventLabel> payload)
+    public virtual EventResult OnEventLabelDeleted(GitHubDelivery<GitHubEventLabel> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_DELETED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventLabelEdited(GitHubPayload<GitHubEventLabelEdited> payload)
+    public virtual EventResult OnEventLabelEdited(GitHubDelivery<GitHubEventLabelEdited> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_EDITED);
     }
@@ -453,157 +454,157 @@ public abstract class GitHubAppBase : IGitHubApp,
     #region Event Pull Request
 
     /// <include file='documentation_shared.xml' path='Documentation/RouteEvent/*'/>
-    private EventResult RouteEvent(IGitHubEventPullRequest @event, GitHubPayload payloadHeaders, string action, string requestBody)
+    private EventResult RouteEvent(IGitHubEventPullRequest @event, GitHubDelivery payloadHeaders, string action, string requestBody)
     {
         return action switch
         {
-            GitHubEventActions.EVENT_ACTION_ASSIGNED => @event.OnEventPullRequestAssigned(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestAssigned>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_AUTO_MERGE_DISABLED => @event.OnEventPullRequestAutoMergeDisabled(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReasoned>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_AUTO_MERGE_ENABLED => @event.OnEventPullRequestAutoMergeEnabled(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReasoned>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_CLOSED => @event.OnEventPullRequestClosed(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_CONVERTED_TO_DRAFT => @event.OnEventPullRequestConvertedToDraft(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_DEMILESTONED => @event.OnEventPullRequestDemilestoned(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestMilestoned>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_DEQUEUED => @event.OnEventPullRequestDequeued(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReasoned>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventPullRequestEdited(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestEdited>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_ENQUEUED => @event.OnEventPullRequestEnqueued(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_LABELED => @event.OnEventPullRequestLabeled(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestLabeled>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_LOCKED => @event.OnEventPullRequestLocked(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_MILESTONED => @event.OnEventPullRequestMilestoned(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestMilestoned>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_OPENED => @event.OnEventPullRequestOpened(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_READY_FOR_REVIEW => @event.OnEventPullRequestReadyForReview(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_REOPENED => @event.OnEventPullRequestReopened(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_REVIEW_REQUEST_REMOVED => @event.OnEventPullRequestReviewRequestRemoved(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReviewRequested>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_REVIEW_REQUESTED => @event.OnEventPullRequestReviewRequest(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReviewRequested>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_SYNCHRONIZE => @event.OnEventPullRequestSynchronize(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestSynchronized>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_UNASSIGNED => @event.OnEventPullRequestUnassigned(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestAssigned>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_UNLABELED => @event.OnEventPullRequestUnlabeled(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestLabeled>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_UNLOCKED => @event.OnEventPullRequestUnlocked(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_ASSIGNED => @event.OnEventPullRequestAssigned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestAssigned>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_AUTO_MERGE_DISABLED => @event.OnEventPullRequestAutoMergeDisabled(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReasoned>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_AUTO_MERGE_ENABLED => @event.OnEventPullRequestAutoMergeEnabled(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReasoned>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_CLOSED => @event.OnEventPullRequestClosed(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_CONVERTED_TO_DRAFT => @event.OnEventPullRequestConvertedToDraft(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_DEMILESTONED => @event.OnEventPullRequestDemilestoned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestMilestoned>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_DEQUEUED => @event.OnEventPullRequestDequeued(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReasoned>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventPullRequestEdited(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestEdited>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_ENQUEUED => @event.OnEventPullRequestEnqueued(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_LABELED => @event.OnEventPullRequestLabeled(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestLabeled>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_LOCKED => @event.OnEventPullRequestLocked(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_MILESTONED => @event.OnEventPullRequestMilestoned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestMilestoned>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_OPENED => @event.OnEventPullRequestOpened(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_READY_FOR_REVIEW => @event.OnEventPullRequestReadyForReview(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_REOPENED => @event.OnEventPullRequestReopened(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_REVIEW_REQUEST_REMOVED => @event.OnEventPullRequestReviewRequestRemoved(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReviewRequested>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_REVIEW_REQUESTED => @event.OnEventPullRequestReviewRequest(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReviewRequested>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_SYNCHRONIZE => @event.OnEventPullRequestSynchronize(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestSynchronized>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_UNASSIGNED => @event.OnEventPullRequestUnassigned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestAssigned>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_UNLABELED => @event.OnEventPullRequestUnlabeled(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestLabeled>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_UNLOCKED => @event.OnEventPullRequestUnlocked(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequest>.ConvertFromJSON(requestBody))),
             _ => throw new UnhandledEventActionException(payloadHeaders.Event, action),
         };
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestAssigned(GitHubPayload<GitHubEventPullRequestAssigned> payload)
+    public virtual EventResult OnEventPullRequestAssigned(GitHubDelivery<GitHubEventPullRequestAssigned> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_ASSIGNED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestAutoMergeDisabled(GitHubPayload<GitHubEventPullRequestReasoned> payload)
+    public virtual EventResult OnEventPullRequestAutoMergeDisabled(GitHubDelivery<GitHubEventPullRequestReasoned> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_AUTO_MERGE_DISABLED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestAutoMergeEnabled(GitHubPayload<GitHubEventPullRequestReasoned> payload)
+    public virtual EventResult OnEventPullRequestAutoMergeEnabled(GitHubDelivery<GitHubEventPullRequestReasoned> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_AUTO_MERGE_ENABLED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestClosed(GitHubPayload<GitHubEventPullRequest> payload)
+    public virtual EventResult OnEventPullRequestClosed(GitHubDelivery<GitHubEventPullRequest> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_CLOSED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestConvertedToDraft(GitHubPayload<GitHubEventPullRequest> payload)
+    public virtual EventResult OnEventPullRequestConvertedToDraft(GitHubDelivery<GitHubEventPullRequest> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_CONVERTED_TO_DRAFT);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestDemilestoned(GitHubPayload<GitHubEventPullRequestMilestoned> payload)
+    public virtual EventResult OnEventPullRequestDemilestoned(GitHubDelivery<GitHubEventPullRequestMilestoned> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_DEMILESTONED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestDequeued(GitHubPayload<GitHubEventPullRequestReasoned> payload)
+    public virtual EventResult OnEventPullRequestDequeued(GitHubDelivery<GitHubEventPullRequestReasoned> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_DEQUEUED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestEdited(GitHubPayload<GitHubEventPullRequestEdited> payload)
+    public virtual EventResult OnEventPullRequestEdited(GitHubDelivery<GitHubEventPullRequestEdited> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_EDITED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestEnqueued(GitHubPayload<GitHubEventPullRequest> payload)
+    public virtual EventResult OnEventPullRequestEnqueued(GitHubDelivery<GitHubEventPullRequest> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_ENQUEUED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestLabeled(GitHubPayload<GitHubEventPullRequestLabeled> payload)
+    public virtual EventResult OnEventPullRequestLabeled(GitHubDelivery<GitHubEventPullRequestLabeled> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_LABELED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestLocked(GitHubPayload<GitHubEventPullRequest> payload)
+    public virtual EventResult OnEventPullRequestLocked(GitHubDelivery<GitHubEventPullRequest> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_LOCKED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestMilestoned(GitHubPayload<GitHubEventPullRequestMilestoned> payload)
+    public virtual EventResult OnEventPullRequestMilestoned(GitHubDelivery<GitHubEventPullRequestMilestoned> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_MILESTONED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestOpened(GitHubPayload<GitHubEventPullRequest> payload)
+    public virtual EventResult OnEventPullRequestOpened(GitHubDelivery<GitHubEventPullRequest> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_OPENED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReadyForReview(GitHubPayload<GitHubEventPullRequest> payload)
+    public virtual EventResult OnEventPullRequestReadyForReview(GitHubDelivery<GitHubEventPullRequest> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_READY_FOR_REVIEW);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReopened(GitHubPayload<GitHubEventPullRequest> payload)
+    public virtual EventResult OnEventPullRequestReopened(GitHubDelivery<GitHubEventPullRequest> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_REOPENED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReviewRequestRemoved(GitHubPayload<GitHubEventPullRequestReviewRequested> payload)
+    public virtual EventResult OnEventPullRequestReviewRequestRemoved(GitHubDelivery<GitHubEventPullRequestReviewRequested> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_REVIEW_REQUEST_REMOVED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReviewRequest(GitHubPayload<GitHubEventPullRequestReviewRequested> payload)
+    public virtual EventResult OnEventPullRequestReviewRequest(GitHubDelivery<GitHubEventPullRequestReviewRequested> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_REVIEW_REQUESTED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestSynchronize(GitHubPayload<GitHubEventPullRequestSynchronized> payload)
+    public virtual EventResult OnEventPullRequestSynchronize(GitHubDelivery<GitHubEventPullRequestSynchronized> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_SYNCHRONIZE);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestUnassigned(GitHubPayload<GitHubEventPullRequestAssigned> payload)
+    public virtual EventResult OnEventPullRequestUnassigned(GitHubDelivery<GitHubEventPullRequestAssigned> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_UNASSIGNED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestUnlabeled(GitHubPayload<GitHubEventPullRequestLabeled> payload)
+    public virtual EventResult OnEventPullRequestUnlabeled(GitHubDelivery<GitHubEventPullRequestLabeled> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_UNLABELED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestUnlocked(GitHubPayload<GitHubEventPullRequest> payload)
+    public virtual EventResult OnEventPullRequestUnlocked(GitHubDelivery<GitHubEventPullRequest> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_UNLOCKED);
     }
@@ -613,31 +614,31 @@ public abstract class GitHubAppBase : IGitHubApp,
     #region Event Pull Request Review Comment
 
     /// <include file='documentation_shared.xml' path='Documentation/RouteEvent/*'/>
-    private EventResult RouteEvent(IGitHubEventPullRequestReviewComment @event, GitHubPayload payloadHeaders, string action, string requestBody)
+    private EventResult RouteEvent(IGitHubEventPullRequestReviewComment @event, GitHubDelivery payloadHeaders, string action, string requestBody)
     {
         return action switch
         {
-            GitHubEventActions.EVENT_ACTION_CREATED => @event.OnEventPullRequestReviewCommentCreated(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReviewComment>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventPullRequestReviewCommentDeleted(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReviewComment>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventPullRequestReviewCommentEdited(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReviewCommentEdited>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_CREATED => @event.OnEventPullRequestReviewCommentCreated(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReviewComment>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventPullRequestReviewCommentDeleted(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReviewComment>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventPullRequestReviewCommentEdited(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReviewCommentEdited>.ConvertFromJSON(requestBody))),
             _ => throw new UnhandledEventActionException(payloadHeaders.Event, action),
         };
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReviewCommentCreated(GitHubPayload<GitHubEventPullRequestReviewComment> payload)
+    public virtual EventResult OnEventPullRequestReviewCommentCreated(GitHubDelivery<GitHubEventPullRequestReviewComment> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_CREATED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReviewCommentDeleted(GitHubPayload<GitHubEventPullRequestReviewComment> payload)
+    public virtual EventResult OnEventPullRequestReviewCommentDeleted(GitHubDelivery<GitHubEventPullRequestReviewComment> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_DELETED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReviewCommentEdited(GitHubPayload<GitHubEventPullRequestReviewCommentEdited> payload)
+    public virtual EventResult OnEventPullRequestReviewCommentEdited(GitHubDelivery<GitHubEventPullRequestReviewCommentEdited> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_EDITED);
     }
@@ -647,31 +648,31 @@ public abstract class GitHubAppBase : IGitHubApp,
     #region Event Pull Request Review
 
     /// <include file='documentation_shared.xml' path='Documentation/RouteEvent/*'/>
-    private EventResult RouteEvent(IGitHubEventPullRequestReview @event, GitHubPayload payloadHeaders, string action, string requestBody)
+    private EventResult RouteEvent(IGitHubEventPullRequestReview @event, GitHubDelivery payloadHeaders, string action, string requestBody)
     {
         return action switch
         {
-            GitHubEventActions.EVENT_ACTION_DISMISSED => @event.OnEventPullRequestReviewDismissed(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReview>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_SUBMITTED => @event.OnEventPullRequestReviewSubmitted(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReview>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventPullRequestReviewEdited(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReviewEdited>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_DISMISSED => @event.OnEventPullRequestReviewDismissed(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReview>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_SUBMITTED => @event.OnEventPullRequestReviewSubmitted(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReview>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventPullRequestReviewEdited(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReviewEdited>.ConvertFromJSON(requestBody))),
             _ => throw new UnhandledEventActionException(payloadHeaders.Event, action),
         };
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReviewDismissed(GitHubPayload<GitHubEventPullRequestReview> payload)
+    public virtual EventResult OnEventPullRequestReviewDismissed(GitHubDelivery<GitHubEventPullRequestReview> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_DISMISSED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReviewSubmitted(GitHubPayload<GitHubEventPullRequestReview> payload)
+    public virtual EventResult OnEventPullRequestReviewSubmitted(GitHubDelivery<GitHubEventPullRequestReview> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_SUBMITTED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReviewEdited(GitHubPayload<GitHubEventPullRequestReviewEdited> payload)
+    public virtual EventResult OnEventPullRequestReviewEdited(GitHubDelivery<GitHubEventPullRequestReviewEdited> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_EDITED);
     }
@@ -681,24 +682,24 @@ public abstract class GitHubAppBase : IGitHubApp,
     #region Event Pull Request Review Thread
 
     /// <include file='documentation_shared.xml' path='Documentation/RouteEvent/*'/>
-    private EventResult RouteEvent(IGitHubEventPullRequestReviewThread @event, GitHubPayload payloadHeaders, string action, string requestBody)
+    private EventResult RouteEvent(IGitHubEventPullRequestReviewThread @event, GitHubDelivery payloadHeaders, string action, string requestBody)
     {
         return action switch
         {
-            GitHubEventActions.EVENT_ACTION_RESOLVED => @event.OnEventPullRequestReviewThreadResolved(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReviewThread>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_UNRESOLVED => @event.OnEventPullRequestReviewThreadUnresolved(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventPullRequestReviewThread>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_RESOLVED => @event.OnEventPullRequestReviewThreadResolved(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReviewThread>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_UNRESOLVED => @event.OnEventPullRequestReviewThreadUnresolved(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventPullRequestReviewThread>.ConvertFromJSON(requestBody))),
             _ => throw new UnhandledEventActionException(payloadHeaders.Event, action),
         };
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReviewThreadResolved(GitHubPayload<GitHubEventPullRequestReviewThread> payload)
+    public virtual EventResult OnEventPullRequestReviewThreadResolved(GitHubDelivery<GitHubEventPullRequestReviewThread> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_RESOLVED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventPullRequestReviewThreadUnresolved(GitHubPayload<GitHubEventPullRequestReviewThread> payload)
+    public virtual EventResult OnEventPullRequestReviewThreadUnresolved(GitHubDelivery<GitHubEventPullRequestReviewThread> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_UNRESOLVED);
     }
@@ -709,7 +710,7 @@ public abstract class GitHubAppBase : IGitHubApp,
 
     /// <inheritdoc cref="GitHubEventPush"/>
     /// <include file='documentation_shared.xml' path='Documentation/EventActionLessHandlers/*'/>
-    public virtual EventResult OnEventPush(GitHubPayload<GitHubEventPush> payload)
+    public virtual EventResult OnEventPush(GitHubDelivery<GitHubEventPush> payload)
     {
         throw new UnhandledEventException(payload.Event);
     }
@@ -719,59 +720,59 @@ public abstract class GitHubAppBase : IGitHubApp,
     #region Event Release
 
     /// <include file='documentation_shared.xml' path='Documentation/RouteEvent/*'/>
-    private EventResult RouteEvent(IGitHubEventRelease @event, GitHubPayload payloadHeaders, string action, string requestBody)
+    private EventResult RouteEvent(IGitHubEventRelease @event, GitHubDelivery payloadHeaders, string action, string requestBody)
     {
         return action switch
         {
-            GitHubEventActions.EVENT_ACTION_CREATED => @event.OnEventReleaseCreated(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventReleaseDeleted(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventReleaseEdited(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventReleaseEdited>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_PRERELEASED => @event.OnEventReleasePreReleased(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_PUBLISHED => @event.OnEventReleasePublished(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_RELEASED => @event.OnEventReleaseReleased(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_UNPUBLISHED => @event.OnEventReleaseUnpublished(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_CREATED => @event.OnEventReleaseCreated(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventReleaseDeleted(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventReleaseEdited(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventReleaseEdited>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_PRERELEASED => @event.OnEventReleasePreReleased(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_PUBLISHED => @event.OnEventReleasePublished(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_RELEASED => @event.OnEventReleaseReleased(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_UNPUBLISHED => @event.OnEventReleaseUnpublished(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRelease>.ConvertFromJSON(requestBody))),
             _ => throw new UnhandledEventActionException(payloadHeaders.Event, action),
         };
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventReleaseCreated(GitHubPayload<GitHubEventRelease> payload)
+    public virtual EventResult OnEventReleaseCreated(GitHubDelivery<GitHubEventRelease> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_CREATED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventReleaseDeleted(GitHubPayload<GitHubEventRelease> payload)
+    public virtual EventResult OnEventReleaseDeleted(GitHubDelivery<GitHubEventRelease> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_DELETED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventReleaseEdited(GitHubPayload<GitHubEventReleaseEdited> payload)
+    public virtual EventResult OnEventReleaseEdited(GitHubDelivery<GitHubEventReleaseEdited> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_EDITED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventReleasePreReleased(GitHubPayload<GitHubEventRelease> payload)
+    public virtual EventResult OnEventReleasePreReleased(GitHubDelivery<GitHubEventRelease> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_PRERELEASED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventReleasePublished(GitHubPayload<GitHubEventRelease> payload)
+    public virtual EventResult OnEventReleasePublished(GitHubDelivery<GitHubEventRelease> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_PUBLISHED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventReleaseReleased(GitHubPayload<GitHubEventRelease> payload)
+    public virtual EventResult OnEventReleaseReleased(GitHubDelivery<GitHubEventRelease> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_RELEASED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventReleaseUnpublished(GitHubPayload<GitHubEventRelease> payload)
+    public virtual EventResult OnEventReleaseUnpublished(GitHubDelivery<GitHubEventRelease> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_UNPUBLISHED);
     }
@@ -781,79 +782,87 @@ public abstract class GitHubAppBase : IGitHubApp,
     #region Event Repository
 
     /// <include file='documentation_shared.xml' path='Documentation/RouteEvent/*'/>
-    private EventResult RouteEvent(IGitHubEventRepository @event, GitHubPayload payloadHeaders, string action, string requestBody)
+    private EventResult RouteEvent(IGitHubEventRepository @event, GitHubDelivery payloadHeaders, string action, string requestBody)
     {
         return action switch
         {
-            GitHubEventActions.EVENT_ACTION_ARCHIVED => @event.OnEventRepositoryArchived(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_CREATED => @event.OnEventRepositoryCreated(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventRepositoryDeleted(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventRepositoryEdited(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRepositoryEdited>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_PRIVATIZED => @event.OnEventRepositoryPrivatized(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_PUBLICIZED => @event.OnEventRepositoryPublicized(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_RENAMED => @event.OnEventRepositoryRenamed(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRepositoryEdited>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_TRANSFERRED => @event.OnEventRepositoryTransferred(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRepositoryEdited>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_UNARCHIVED => @event.OnEventRepositoryUnarchived(payloadHeaders.ConvertToTypedPayload(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_ARCHIVED => @event.OnEventRepositoryArchived(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_CREATED => @event.OnEventRepositoryCreated(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_DELETED => @event.OnEventRepositoryDeleted(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_EDITED => @event.OnEventRepositoryEdited(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRepositoryEdited>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_PRIVATIZED => @event.OnEventRepositoryPrivatized(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_PUBLICIZED => @event.OnEventRepositoryPublicized(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_RENAMED => @event.OnEventRepositoryRenamed(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRepositoryEdited>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_TRANSFERRED => @event.OnEventRepositoryTransferred(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRepositoryEdited>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_UNARCHIVED => @event.OnEventRepositoryUnarchived(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventRepository>.ConvertFromJSON(requestBody))),
             _ => throw new UnhandledEventActionException(payloadHeaders.Event, action),
         };
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventRepositoryArchived(GitHubPayload<GitHubEventRepository> payload)
+    public virtual EventResult OnEventRepositoryArchived(GitHubDelivery<GitHubEventRepository> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_ARCHIVED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventRepositoryCreated(GitHubPayload<GitHubEventRepository> payload)
+    public virtual EventResult OnEventRepositoryCreated(GitHubDelivery<GitHubEventRepository> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_CREATED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventRepositoryDeleted(GitHubPayload<GitHubEventRepository> payload)
+    public virtual EventResult OnEventRepositoryDeleted(GitHubDelivery<GitHubEventRepository> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_DELETED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventRepositoryEdited(GitHubPayload<GitHubEventRepositoryEdited> payload)
+    public virtual EventResult OnEventRepositoryEdited(GitHubDelivery<GitHubEventRepositoryEdited> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_EDITED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventRepositoryPrivatized(GitHubPayload<GitHubEventRepository> payload)
+    public virtual EventResult OnEventRepositoryPrivatized(GitHubDelivery<GitHubEventRepository> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_PRIVATIZED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventRepositoryPublicized(GitHubPayload<GitHubEventRepository> payload)
+    public virtual EventResult OnEventRepositoryPublicized(GitHubDelivery<GitHubEventRepository> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_PUBLICIZED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventRepositoryRenamed(GitHubPayload<GitHubEventRepositoryEdited> payload)
+    public virtual EventResult OnEventRepositoryRenamed(GitHubDelivery<GitHubEventRepositoryEdited> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_RENAMED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventRepositoryTransferred(GitHubPayload<GitHubEventRepositoryEdited> payload)
+    public virtual EventResult OnEventRepositoryTransferred(GitHubDelivery<GitHubEventRepositoryEdited> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_TRANSFERRED);
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventRepositoryUnarchived(GitHubPayload<GitHubEventRepository> payload)
+    public virtual EventResult OnEventRepositoryUnarchived(GitHubDelivery<GitHubEventRepository> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_UNARCHIVED);
     }
 
     #endregion Event Repository
 
-}
+    #region Event Create (No Actions)
 
-//#pragma warning restore CA1822
+    /// <inheritdoc cref="GitHubEventCreate"/>
+    /// <include file='documentation_shared.xml' path='Documentation/EventActionLessHandlers/*'/>
+    public virtual EventResult OnEventCreate(GitHubDelivery<GitHubEventCreate> payload)
+    {
+        throw new UnhandledEventException(payload.Event);
+    }
+
+    #endregion Event Create (No Actions)
+}

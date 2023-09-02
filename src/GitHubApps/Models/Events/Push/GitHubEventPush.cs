@@ -2,7 +2,7 @@
 namespace GitHubApps.Models.Events;
 
 /// <summary>
-/// This even occurs when a commit or tag is pushed, or when a repository is cloned.
+/// This event occurs when a commit or tag is pushed, or when a repository is cloned.
 /// </summary>
 public class GitHubEventPush: GitHubEvent<GitHubEventPush>
 {
