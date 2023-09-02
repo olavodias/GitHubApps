@@ -9,12 +9,12 @@ internal interface IGitHubEventPullRequestReviewThread
     /// A comment thread on a pull request was marked as resolved
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventPullRequestReviewThreadResolved(GitHubPayload<GitHubEventPullRequestReviewThread> payload);
+    EventResult OnEventPullRequestReviewThreadResolved(GitHubDelivery<GitHubEventPullRequestReviewThread> payload);
 
     /// <summary>
     /// A previously resolved comment thread on a pull request was marked as unresolved
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventPullRequestReviewThreadUnresolved(GitHubPayload<GitHubEventPullRequestReviewThread> payload);
+    EventResult OnEventPullRequestReviewThreadUnresolved(GitHubDelivery<GitHubEventPullRequestReviewThread> payload);
 }
 

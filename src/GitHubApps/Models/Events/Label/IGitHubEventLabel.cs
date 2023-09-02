@@ -9,17 +9,17 @@ internal interface IGitHubEventLabel
     /// A label was created
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventLabelCreated(GitHubPayload<GitHubEventLabel> payload);
+    EventResult OnEventLabelCreated(GitHubDelivery<GitHubEventLabel> payload);
     /// <summary>
     /// A label was deleted
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventLabelDeleted(GitHubPayload<GitHubEventLabel> payload);
+    EventResult OnEventLabelDeleted(GitHubDelivery<GitHubEventLabel> payload);
     /// <summary>
     /// A label's name, description, or color was changed
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventLabelEdited(GitHubPayload<GitHubEventLabelEdited> payload);
+    EventResult OnEventLabelEdited(GitHubDelivery<GitHubEventLabelEdited> payload);
 
 }
 

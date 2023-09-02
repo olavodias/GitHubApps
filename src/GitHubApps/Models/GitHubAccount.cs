@@ -75,7 +75,8 @@ public sealed class GitHubAccount
 	/// <summary>
 	/// Defines whether the account is a site admin or not
 	/// </summary>
-	public bool? SiteAdmin { get; set; }
+	[JsonProperty("site_admin")]
+	public bool? IsSiteAdmin { get; set; }
 	/// <summary>
 	/// The Starred URL
 	/// </summary>

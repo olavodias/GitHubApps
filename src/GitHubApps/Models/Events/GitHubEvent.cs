@@ -4,8 +4,8 @@ namespace GitHubApps.Models.Events;
 /// <summary>
 /// Represents a base class for an event
 /// </summary>
-/// <typeparam name="TMainClass">The type with the event payload</typeparam>
-public abstract class GitHubEvent<TMainClass>
+/// <typeparam name="TGitHubPayload">The type with the event payload</typeparam>
+public abstract class GitHubEvent<TGitHubPayload>
 {
 
     #region Properties
@@ -43,13 +43,13 @@ public abstract class GitHubEvent<TMainClass>
     public GitHubEvent() { }
 
 	/// <summary>
-	/// Converts a json file into an object of type <typeparamref name="TMainClass"/>
+	/// Converts a json file into an object of type <typeparamref name="TGitHubPayload"/>
 	/// </summary>
 	/// <param name="json">The json contents</param>
 	/// <returns>The object converted from json</returns>
-	public static TMainClass? ConvertFromJSON(string json)
+	public static TGitHubPayload? ConvertFromJSON(string json)
 	{
-		return GitHubSerializer.ConvertFromJson<TMainClass>(json);
+		return GitHubSerializer.ConvertFromJson<TGitHubPayload>(json);
 	}
 
 }
@@ -92,8 +92,8 @@ public static class GitHubHeaders
 /// </summary>
 public static class GitHubEvents
 {
-	/// <inheritdoc cref="GitHubApps.Models.Events.GitHubEventInstallation"/>
-	public const string EVENT_INSTALLATION = "installation";
+    /// <inheritdoc cref="GitHubApps.Models.Events.GitHubEventInstallation"/>
+    public const string EVENT_INSTALLATION = "installation";
     /// <inheritdoc cref="GitHubApps.Models.Events.GitHubEventIssueComment"/>
     public const string EVENT_ISSUE_COMMENT = "issue_comment";
     /// <inheritdoc cref="GitHubApps.Models.Events.GitHubEventIssues"/>
@@ -111,9 +111,11 @@ public static class GitHubEvents
     /// <inheritdoc cref="GitHubApps.Models.Events.GitHubEventPush"/>
     public const string EVENT_PUSH = "push";
     /// <inheritdoc cref="GitHubApps.Models.Events.GitHubEventRelease"/>
-	public const string EVENT_RELEASE = "release";
+    public const string EVENT_RELEASE = "release";
     /// <inheritdoc cref="GitHubApps.Models.Events.GitHubEventRepository"/>
-	public const string EVENT_REPOSITORY = "repository";
+    public const string EVENT_REPOSITORY = "repository";
+    /// <inheritdoc cref="GitHubApps.Models.Events.GitHubEventCreate"/>
+    public const string EVENT_CREATE = "create";
 }
 
 /// <summary>

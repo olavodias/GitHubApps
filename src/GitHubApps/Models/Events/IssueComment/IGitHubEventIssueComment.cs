@@ -9,17 +9,17 @@ internal interface IGitHubEventIssueComment
     /// A comment on an issue or pull request was created
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssueCommentCreated(GitHubPayload<GitHubEventIssueComment> payload);
+    EventResult OnEventIssueCommentCreated(GitHubDelivery<GitHubEventIssueComment> payload);
     /// <summary>
     /// A comment on an issue or pull request was deleted
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssueCommentDeleted(GitHubPayload<GitHubEventIssueComment> payload);
+    EventResult OnEventIssueCommentDeleted(GitHubDelivery<GitHubEventIssueComment> payload);
     /// <summary>
     /// A comment on an issue or pull request was edited
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssueCommentEdited(GitHubPayload<GitHubEventIssueCommentEdited> payload);
+    EventResult OnEventIssueCommentEdited(GitHubDelivery<GitHubEventIssueCommentEdited> payload);
 
 }
 
