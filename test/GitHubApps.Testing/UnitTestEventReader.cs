@@ -58,7 +58,6 @@ public class UnitTestEventReader
         Assert.AreEqual("MDIzOkludGVncmF0aW9uSW5zdGFsbGF0aW9uNDEyNDk5MDE=", obj.Payload.Installation.NodeID);
     }
 
-
     /// <summary>
     /// Test the <see cref="GitHubEventFork"/> class
     /// </summary>
@@ -93,6 +92,43 @@ public class UnitTestEventReader
         // Validate Installation
         Assert.IsNotNull(obj.Payload.Installation);
         ValidateSimplifiedInstallation(obj.Payload.Installation);
+    }
+
+    /// <summary>
+    /// Test the <see cref="GitHubEventDelete"/> class
+    /// </summary>
+    [TestMethod]
+    public void TestEventDelete()
+    {
+        // Test File to Serialize
+        var obj = TestHelper.GetGitHubObject<GitHubEventDelete>("Payload", "Delete", "Delete.01.json");
+
+        Assert.IsNotNull(obj);
+
+        // Validate Payload Properties
+        Assert.AreEqual("delete", obj.Event);
+        Assert.IsNotNull(obj.Payload);
+
+        Assert.AreEqual("test", obj.Payload.Ref);
+        Assert.AreEqual(GitHubRefTypes.Branch, obj.Payload.RefType);
+        Assert.AreEqual("user", obj.Payload.PusherType);
+
+        // Validate Repository Object
+        Assert.IsNotNull(obj.Payload.Repository);
+        ValidateDefaultRepository(obj.Payload.Repository);
+
+        // Validate Repository Owner
+        Assert.IsNotNull(obj.Payload.Repository.Owner);
+        ValidateDefaultAccount(obj.Payload.Repository.Owner);
+
+        // Validate Sender
+        Assert.IsNotNull(obj.Payload.Sender);
+        ValidateDefaultAccount(obj.Payload.Sender);
+
+        // Validate Installation
+        Assert.IsNotNull(obj.Payload.Installation);
+        ValidateSimplifiedInstallation(obj.Payload.Installation);
+
     }
 
     #region Model Validation

@@ -124,6 +124,9 @@ public abstract class GitHubAppBase : IGitHubApp,
                 case GitHubEvents.EVENT_FORK:
                     return await Task.FromResult(OnEventFork(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventFork>.ConvertFromJSON(body)))).ConfigureAwait(false);
 
+                case GitHubEvents.EVENT_DELETE:
+                    return await Task.FromResult(OnEventDelete(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventDelete>.ConvertFromJSON(body)))).ConfigureAwait(false);
+
                 default:
                     break;
 
@@ -878,6 +881,17 @@ public abstract class GitHubAppBase : IGitHubApp,
         throw new UnhandledEventException(payload.Event);
     }
 
-    #endregion Event FOrk (No Actions)
+    #endregion Event Fork (No Actions)
+
+    #region Event Delete (No Actions)
+
+    /// <inheritdoc cref="GitHubEventDelete"/>
+    /// <include file='documentation_shared.xml' path='Documentation/EventActionLessHandlers/*'/>
+    public virtual EventResult OnEventDelete(GitHubDelivery<GitHubEventDelete> payload)
+    {
+        throw new UnhandledEventException(payload.Event);
+    }
+
+    #endregion Event Delete (No Actions)
 
 }

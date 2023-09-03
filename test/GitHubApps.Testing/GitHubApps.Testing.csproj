@@ -29,6 +29,9 @@
     <None Remove="Payload\Create\" />
     <None Remove="Payload\Ping\" />
     <None Remove="Payload\Fork\" />
+    <None Remove="Payload\Delete\" />
+    <None Remove="Payload\Repository\" />
+    <None Remove="Payload\InstallationRepositories\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Payload\" />
@@ -44,6 +47,9 @@
     <Folder Include="Payload\Create\" />
     <Folder Include="Payload\Ping\" />
     <Folder Include="Payload\Fork\" />
+    <Folder Include="Payload\Delete\" />
+    <Folder Include="Payload\Repository\" />
+    <Folder Include="Payload\InstallationRepositories\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\GitHubApps\GitHubApps.csproj" />
@@ -143,6 +149,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Payload\Fork\Fork.01.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Delete\Delete.01.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\InstallationRepositories\InstallationRepositories.Removed.01.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

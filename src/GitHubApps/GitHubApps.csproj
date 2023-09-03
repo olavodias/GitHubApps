@@ -65,6 +65,7 @@
     <None Remove="Models\Events\Repository\" />
     <None Remove="Models\Events\Create\" />
     <None Remove="Models\Events\Fork\" />
+    <None Remove="Models\Events\Delete\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -83,5 +84,6 @@
     <Folder Include="Models\Events\Repository\" />
     <Folder Include="Models\Events\Create\" />
     <Folder Include="Models\Events\Fork\" />
+    <Folder Include="Models\Events\Delete\" />
   </ItemGroup>
 </Project>

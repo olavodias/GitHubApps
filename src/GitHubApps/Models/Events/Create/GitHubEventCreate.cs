@@ -22,11 +22,11 @@ public sealed class GitHubEventCreate: GitHubEvent<GitHubEventCreate>
     /// </summary>
     public string? PusherType { get; set; }
     /// <summary>
-    /// The git ref resource
+    /// The Git Ref Resource
     /// </summary>
     public string? Ref { get; set; }
     /// <summary>
-    /// The type of Git ref object created in the repository
+    /// The type of Git Ref object created in the repository
     /// </summary>
     public GitHubRefTypes? RefType { get; set; }
 
