@@ -27,7 +27,6 @@
 
 #pragma warning disable CA1822 // Mark members as static
 
-using System.Reflection;
 using GitHubApps.Models;
 using GitHubApps.Models.Events;
 
@@ -37,7 +36,7 @@ namespace GitHubApps.Testing;
 /// This Unit Testing Class will test the reading of events
 /// </summary>
 [TestClass]
-public class UnitTestEventReader
+public partial class UnitTestEventReader
 {
     /// <summary>
     /// Test the <see cref="GitHubEventCreate"/> class
@@ -51,7 +50,7 @@ public class UnitTestEventReader
         Assert.IsNotNull(obj);
 
         // Validate Payload Properties
-        Assert.AreEqual("create", obj.Event);
+        Assert.AreEqual(GitHubEvents.EVENT_CREATE, obj.Event);
         Assert.IsNotNull(obj.Payload);
 
         Assert.AreEqual("dev", obj.Payload.Ref);
@@ -97,7 +96,7 @@ public class UnitTestEventReader
         Assert.IsNotNull(obj);
 
         // Validate Payload Properties
-        Assert.AreEqual("fork", obj.Event);
+        Assert.AreEqual(GitHubEvents.EVENT_FORK, obj.Event);
         Assert.IsNotNull(obj.Payload);
 
         // Validate Forkee Object
@@ -133,7 +132,7 @@ public class UnitTestEventReader
         Assert.IsNotNull(obj);
 
         // Validate Payload Properties
-        Assert.AreEqual("delete", obj.Event);
+        Assert.AreEqual(GitHubEvents.EVENT_DELETE, obj.Event);
         Assert.IsNotNull(obj.Payload);
 
         Assert.AreEqual("test", obj.Payload.Ref);
@@ -155,10 +154,22 @@ public class UnitTestEventReader
         // Validate Installation
         Assert.IsNotNull(obj.Payload.Installation);
         ValidateSimplifiedInstallation(obj.Payload.Installation);
-
     }
 
     #region Model Validation
+
+    /// <summary>
+    /// Validates a <see cref="GitHubRepository"/> with simplified properties
+    /// </summary>
+    /// <param name="model">A <see cref="GitHubRepository"/> to be validated</param>
+    private void ValidateSimplifiedRepository(GitHubRepository model)
+    {
+        Assert.AreEqual(684890442, model.ID);
+        Assert.AreEqual("R_kgDOKNKZSg", model.NodeID);
+        Assert.AreEqual("TestGitHubApp", model.Name);
+        Assert.AreEqual("githuborg/TestGitHubApp", model.FullName);
+        Assert.IsTrue(model.IsPrivate);
+    }
 
     /// <summary>
     /// Validates a <see cref="GitHubAccount"/>
@@ -210,6 +221,141 @@ public class UnitTestEventReader
         Assert.AreEqual("https://api.github.com/users/githubuser2/received_events", model.ReceivedEventsURL);
         Assert.AreEqual(GitHubAccountTypes.Organization, model.Type);
         Assert.IsFalse(model.IsSiteAdmin);
+    }
+
+    /// <summary>
+    /// Validates a <see cref="GitHubAccount"/>
+    /// </summary>
+    /// <param name="model">A <see cref="GitHubAccount"/> to be validated</param>
+    private void ValidateDefaultOrganizationAccount(GitHubAccount model)
+    {
+        Assert.AreEqual("githuborg", model.Login);
+        Assert.AreEqual(24394891, model.ID);
+        Assert.AreEqual("MDEyOk9yZ2FuaXphdGlvbjI0Mzk0ODkx", model.NodeID);
+        Assert.AreEqual("https://avatars.githubusercontent.com/u/24394891?v=4", model.AvatarURL);
+        Assert.AreEqual("", model.GravatarID);
+        Assert.AreEqual("https://api.github.com/users/githuborg", model.URL);
+        Assert.AreEqual("https://github.com/githuborg", model.HTMLURL);
+        Assert.AreEqual("https://api.github.com/users/githuborg/followers", model.FollowersURL);
+        Assert.AreEqual("https://api.github.com/users/githuborg/following{/other_user}", model.FollowingURL);
+        Assert.AreEqual("https://api.github.com/users/githuborg/gists{/gist_id}", model.GistsURL);
+        Assert.AreEqual("https://api.github.com/users/githuborg/starred{/owner}{/repo}", model.StarredURL);
+        Assert.AreEqual("https://api.github.com/users/githuborg/subscriptions", model.SubscriptionsURL);
+        Assert.AreEqual("https://api.github.com/users/githuborg/orgs", model.OrganizationsURL);
+        Assert.AreEqual("https://api.github.com/users/githuborg/repos", model.ReposURL);
+        Assert.AreEqual("https://api.github.com/users/githuborg/events{/privacy}", model.EventsURL);
+        Assert.AreEqual("https://api.github.com/users/githuborg/received_events", model.ReceivedEventsURL);
+        Assert.AreEqual(GitHubAccountTypes.Organization, model.Type);
+        Assert.IsFalse(model.IsSiteAdmin);
+    }
+
+    /// <summary>
+    /// Validates a <see cref="GitHubInstallation"/> with full parameters
+    /// </summary>
+    /// <param name="model"></param>
+    private void ValidateDefaultInstallation(GitHubInstallation model)
+    {
+        // Array with events that should be in the payload
+        var eventList = new string[] { "branch_protection_configuration", "branch_protection_rule", "check_run", "check_suite",
+                                       "code_scanning_alert", "commit_comment", "create", "delete", "dependabot_alert", "deployment",
+                                       "deployment_protection_rule", "deployment_review", "deployment_status", "deploy_key",
+                                       "discussion", "discussion_comment", "fork", "gollum", "issues", "issue_comment",
+                                       "label", "member", "membership", "merge_group", "merge_queue_entry", "milestone",
+                                       "organization", "org_block", "page_build", "personal_access_token_request",
+                                       "project", "projects_v2", "projects_v2_item", "project_card", "project_column",
+                                       "public", "pull_request", "pull_request_review", "pull_request_review_comment",
+                                       "pull_request_review_thread", "push", "registry_package", "release", "repository",
+                                       "repository_advisory", "repository_dispatch", "repository_ruleset", "secret_scanning_alert",
+                                       "secret_scanning_alert_location", "security_and_analysis", "star", "status", "team",
+                                       "team_add", "watch", "workflow_dispatch", "workflow_job", "workflow_run" };
+
+        Assert.AreEqual(41251547, model.ID);
+
+        Assert.IsNotNull(model.Account);
+        ValidateDefaultOrganizationAccount(model.Account);
+
+        Assert.AreEqual("https://api.github.com/app/installations/41251547/access_tokens", model.AccessTokensURL);
+        Assert.AreEqual("https://api.github.com/installation/repositories", model.RepositoriesURL);
+        Assert.AreEqual("https://github.com/organizations/githuborg/settings/installations/41251547", model.HTMLURL);
+        Assert.AreEqual(383002, model.AppID);
+        Assert.AreEqual("githubuser-githubtest", model.AppSlug);
+        Assert.AreEqual(24394891, model.TargetID);
+        Assert.AreEqual("Organization", model.TargetType);
+
+        // Validate Permissions
+        Assert.IsNotNull(model.Permissions);
+        ValidateDefaultPermissions(model.Permissions);
+
+        // Validate Events Array
+        Assert.IsNotNull(model.Events);
+        Assert.AreEqual(58, model.Events.Length);
+
+        for (int i = 0; i < 58; i++)
+            Assert.AreEqual(eventList[i], model.Events[i]);
+
+        Assert.AreEqual(new DateTime(2023, 08, 29, 22, 15, 14), model.CreatedAt);
+        Assert.AreEqual(new DateTime(2023, 08, 29, 22, 15, 14), model.UpdatedAt);
+
+        Assert.IsNull(model.SingleFileName);
+        Assert.IsFalse(model.HasMultipleSingleFiles);
+        Assert.IsNotNull(model.SingleFilePaths);
+        Assert.AreEqual(0, model.SingleFilePaths.Length);
+    }
+
+    /// <summary>
+    /// Validate the <see cref="GitHubPermissions"/> for a <see cref="GitHubEventInstallation"/> event
+    /// </summary>
+    /// <param name="model">The <see cref="GitHubPermissions"/></param>
+    private void ValidateDefaultPermissions(GitHubPermissions model)
+    {
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Pages);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Checks);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Issues);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Actions);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Members);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Secrets);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Contents);
+        Assert.AreEqual(GitHubPermissionOptions.Read, model.Metadata);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Packages);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Statuses);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Workflows);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Codespaces);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Deployments);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Discussions);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Environments);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.MergeQueues);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.PullRequests);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.Administration);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.SecurityEvents);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.RepositoryHooks);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.TeamDiscussions);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.ActionsVariables);
+        Assert.AreEqual(GitHubPermissionOptions.Read, model.OrganizationPlan);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.CodespacesSecrets);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.DependabotSecrets);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationHooks);
+        Assert.AreEqual(GitHubPermissionOptions.Read, model.CodespacesMetadata);
+        Assert.AreEqual(GitHubPermissionOptions.Read, model.OrganizationEvents);
+        Assert.AreEqual(GitHubPermissionOptions.Admin, model.RepositoryProjects);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationSecrets);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.VulnerabilityAlerts);
+        Assert.AreEqual(GitHubPermissionOptions.Admin, model.OrganizationProjects);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.RepositoryAdvisories);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.SecretScanningAlerts);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationCodespaces);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationCustomRoles);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.CodespacesLifecycleAdmin);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationUserBlocking);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationAdministration);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationActionsVariables);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationCodespacesSecrets);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationDependabotSecrets);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationCodespacesSettings);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationSelfHostedRunners);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationAnnouncementBanners);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationPersonalAccessTokens);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationCopilotSeatManagement);
+        Assert.AreEqual(GitHubPermissionOptions.Write, model.OrganizationPersonalAccessTokenRequests);
     }
 
     /// <summary>

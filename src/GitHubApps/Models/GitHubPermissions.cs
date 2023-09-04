@@ -48,6 +48,22 @@ public sealed class GitHubPermissions
 	/// </summary>
 	public GitHubPermissionOptions? Checks { get; set; }
 	/// <summary>
+	/// Permission to Codespaces
+	/// </summary>
+	public GitHubPermissionOptions? Codespaces { get; set; }
+	/// <summary>
+	/// Permision to Admin Codespaces Lifecycle
+	/// </summary>
+	public GitHubPermissionOptions? CodespacesLifecycleAdmin { get; set; }
+	/// <summary>
+	/// Permission to Codespaces Metadata
+	/// </summary>
+	public GitHubPermissionOptions? CodespacesMetadata { get; set; }
+	/// <summary>
+	/// Permission to Codespaces Secrets
+	/// </summary>
+	public GitHubPermissionOptions? CodespacesSecrets { get; set; }
+	/// <summary>
 	/// Permission to Content References
 	/// </summary>
 	public GitHubPermissionOptions? ContentReferences { get; set; }
@@ -55,6 +71,10 @@ public sealed class GitHubPermissions
 	/// Permission to Contents
 	/// </summary>
 	public GitHubPermissionOptions? Contents { get; set; }
+	/// <summary>
+	/// Permission to Dependabot Secrets
+	/// </summary>
+	public GitHubPermissionOptions? DependabotSecrets { get; set; }
 	/// <summary>
 	/// Permission to Deployments
 	/// </summary>
@@ -84,13 +104,53 @@ public sealed class GitHubPermissions
 	/// </summary>
 	public GitHubPermissionOptions? Members { get; set; }
 	/// <summary>
+	/// Permission to Merge Queues
+	/// </summary>
+	public GitHubPermissionOptions? MergeQueues { get; set; }
+	/// <summary>
 	/// Permission to Metadata
 	/// </summary>
 	public GitHubPermissionOptions? Metadata { get; set; }
 	/// <summary>
+	/// Permision to Organization Actions Variables
+	/// </summary>
+	public GitHubPermissionOptions? OrganizationActionsVariables { get; set; }
+	/// <summary>
 	/// Permission to Organization Administration
 	/// </summary>
 	public GitHubPermissionOptions? OrganizationAdministration { get; set; }
+	/// <summary>
+	/// Permission to Organization Announcement Banners
+	/// </summary>
+	public GitHubPermissionOptions? OrganizationAnnouncementBanners { get; set; }
+	/// <summary>
+	/// Permission to Organization Codespaces Secrets
+	/// </summary>
+	public GitHubPermissionOptions? OrganizationCodespacesSecrets { get; set; }
+	/// <summary>
+	/// Permission to Organization Codespaces Settings
+	/// </summary>
+	public GitHubPermissionOptions? OrganizationCodespacesSettings { get; set; }
+	/// <summary>
+	/// Permission to Organization Dependabot Secrets
+	/// </summary>
+	public GitHubPermissionOptions? OrganizationDependabotSecrets { get; set; }
+	/// <summary>
+	/// Permission to Organization Events
+	/// </summary>
+	public GitHubPermissionOptions? OrganizationEvents { get; set; }
+	/// <summary>
+	/// Permission to Organization Codespaces
+	/// </summary>
+	public GitHubPermissionOptions? OrganizationCodespaces { get; set; }
+	/// <summary>
+	/// Permission to Manage Seats on Organizatio Copilot
+	/// </summary>
+	public GitHubPermissionOptions? OrganizationCopilotSeatManagement { get; set; }
+	/// <summary>
+	/// Permission to Organization Custom Roles
+	/// </summary>
+	public GitHubPermissionOptions? OrganizationCustomRoles { get; set; }
 	/// <summary>
 	/// Permission to Organization Hooks
 	/// </summary>
@@ -99,6 +159,14 @@ public sealed class GitHubPermissions
 	/// Permission to Organization Packages
 	/// </summary>
 	public GitHubPermissionOptions? OrganizationPackages { get; set; }
+	/// <summary>
+	/// Permission to Organization Personal Access Tokens
+	/// </summary>
+	public GitHubPermissionOptions? OrganizationPersonalAccessTokens { get; set; }
+	/// <summary>
+	/// Permission to Organization Personal Access Token Requests
+	/// </summary>
+	public GitHubPermissionOptions? OrganizationPersonalAccessTokenRequests { get; set; }
 	/// <summary>
 	/// Permission to Organization Plan
 	/// </summary>
@@ -131,6 +199,10 @@ public sealed class GitHubPermissions
 	/// Permission to Pull Requests
 	/// </summary>
 	public GitHubPermissionOptions? PullRequests { get; set; }
+	/// <summary>
+	/// Permission to Repository Advisories
+	/// </summary>
+	public GitHubPermissionOptions? RepositoryAdvisories { get; set; }
 	/// <summary>
 	/// Permission to Repository Hooks
 	/// </summary>
@@ -202,6 +274,10 @@ public enum GitHubPermissionOptions
 	/// <summary>
 	/// The contents can be written
 	/// </summary>
-	Write
+	Write,
+	/// <summary>
+	/// The entity can be administered
+	/// </summary>
+	Admin
 }
 
