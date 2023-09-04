@@ -44,7 +44,7 @@ public partial class UnitTestEventReader
     public void TestEventInstallationCreated()
     {
         // Test File to Serialize
-        var obj = TestHelper.GetGitHubObject<GitHubEventInstallation>("Payload", "Installation", "Installation.Created.01.json");
+        var obj = TestHelper.GetGitHubObject<GitHubEventInstallation>("Payload", "Installation", "Installation.Created.json");
 
         Assert.IsNotNull(obj);
 
@@ -81,7 +81,7 @@ public partial class UnitTestEventReader
     public void TestEventInstallationDeleted()
     {
         // Test File to Serialize
-        var obj = TestHelper.GetGitHubObject<GitHubEventInstallation>("Payload", "Installation", "Installation.Deleted.01.json");
+        var obj = TestHelper.GetGitHubObject<GitHubEventInstallation>("Payload", "Installation", "Installation.Deleted.json");
 
         Assert.IsNotNull(obj);
 
@@ -115,7 +115,7 @@ public partial class UnitTestEventReader
     public void TestEventInstallationSuspend()
     {
         // Test File to Serialize
-        var obj = TestHelper.GetGitHubObject<GitHubEventInstallation>("Payload", "Installation", "Installation.Suspend.01.json");
+        var obj = TestHelper.GetGitHubObject<GitHubEventInstallation>("Payload", "Installation", "Installation.Suspend.json");
 
         Assert.IsNotNull(obj);
 
@@ -132,7 +132,7 @@ public partial class UnitTestEventReader
         // Validate Suspended Information
         Assert.IsNotNull(obj.Payload.Installation.SuspendedBy);
         ValidateDefaultAccount(obj.Payload.Installation.SuspendedBy);
-        Assert.AreEqual(new DateTime(2023, 8, 30, 4, 27, 30), obj.Payload.Installation.SuspendedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), obj.Payload.Installation.SuspendedAt);
 
         // Validate Sender
         Assert.IsNotNull(obj.Payload.Sender);
@@ -146,7 +146,7 @@ public partial class UnitTestEventReader
     public void TestEventInstallationUnsuspend()
     {
         // Test File to Serialize
-        var obj = TestHelper.GetGitHubObject<GitHubEventInstallation>("Payload", "Installation", "Installation.Unsuspend.01.json");
+        var obj = TestHelper.GetGitHubObject<GitHubEventInstallation>("Payload", "Installation", "Installation.Unsuspend.json");
 
         Assert.IsNotNull(obj);
 

@@ -31,7 +31,7 @@ namespace GitHubApps.Models.Events;
 /// Represents a base class for an event
 /// </summary>
 /// <typeparam name="TGitHubPayload">The type with the event payload</typeparam>
-public abstract class GitHubEvent<TGitHubPayload>
+public abstract class GitHubEvent<TGitHubPayload>: GitHubEvent
 {
 
     #region Properties
@@ -77,7 +77,28 @@ public abstract class GitHubEvent<TGitHubPayload>
 	{
 		return GitHubSerializer.ConvertFromJson<TGitHubPayload>(json);
 	}
+}
 
+/// <summary>
+/// Represents a base class for an event
+/// </summary>
+public abstract class GitHubEvent
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="GitHubEvent"/> class
+    /// </summary>
+    public GitHubEvent() { }
+
+    /// <summary>
+    /// Converts a json file into an object of type <typeparamref name="TGitHubPayload"/>
+    /// </summary>
+    /// <typeparam name="TGitHubPayload">The type to convert to</typeparam>
+    /// <param name="json">The json contents</param>
+    /// <returns>The object converted from json</returns>
+    public static TGitHubPayload? ConvertFromJSON<TGitHubPayload>(string json)
+    {
+        return GitHubSerializer.ConvertFromJson<TGitHubPayload>(json);
+    }
 }
 
 #region Event Constants

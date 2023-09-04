@@ -45,7 +45,7 @@ public partial class UnitTestEventReader
     public void TestEventCreate()
     {
         // Test File to Serialize
-        var obj = TestHelper.GetGitHubObject<GitHubEventCreate>("Payload", "Create", "Create.01.json");
+        var obj = TestHelper.GetGitHubObject<GitHubEventCreate>("Payload", "Create", "Create.json");
 
         Assert.IsNotNull(obj);
 
@@ -66,9 +66,9 @@ public partial class UnitTestEventReader
         Assert.AreEqual(0, obj.Payload.Repository.Size);
         Assert.AreEqual(0, obj.Payload.Repository.ForksCount);
         Assert.AreEqual(0, obj.Payload.Repository.Forks);
-        Assert.AreEqual(new DateTime(2023, 08, 30, 2, 56, 51), obj.Payload.Repository.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 08, 30, 2, 56, 52), obj.Payload.Repository.UpdatedAt);
-        Assert.AreEqual(new DateTime(2023, 08, 30, 3, 0, 40), obj.Payload.Repository.PushedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), obj.Payload.Repository.CreatedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), obj.Payload.Repository.UpdatedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), obj.Payload.Repository.PushedAt);
 
         // Validate Repository Owner
         Assert.IsNotNull(obj.Payload.Repository.Owner);
@@ -91,7 +91,7 @@ public partial class UnitTestEventReader
     public void TestEventFork()
     {
         // Test File to Serialize
-        var obj = TestHelper.GetGitHubObject<GitHubEventFork>("Payload", "Fork", "Fork.01.json");
+        var obj = TestHelper.GetGitHubObject<GitHubEventFork>("Payload", "Fork", "Fork.json");
 
         Assert.IsNotNull(obj);
 
@@ -127,7 +127,7 @@ public partial class UnitTestEventReader
     public void TestEventDelete()
     {
         // Test File to Serialize
-        var obj = TestHelper.GetGitHubObject<GitHubEventDelete>("Payload", "Delete", "Delete.01.json");
+        var obj = TestHelper.GetGitHubObject<GitHubEventDelete>("Payload", "Delete", "Delete.json");
 
         Assert.IsNotNull(obj);
 
@@ -293,8 +293,8 @@ public partial class UnitTestEventReader
         for (int i = 0; i < 58; i++)
             Assert.AreEqual(eventList[i], model.Events[i]);
 
-        Assert.AreEqual(new DateTime(2023, 08, 29, 22, 15, 14), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 08, 29, 22, 15, 14), model.UpdatedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
 
         Assert.IsNull(model.SingleFileName);
         Assert.IsFalse(model.HasMultipleSingleFiles);
@@ -420,9 +420,9 @@ public partial class UnitTestEventReader
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/labels{/name}", model.LabelsURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/releases{/id}", model.ReleasesURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/deployments", model.DeploymentsURL);
-        Assert.AreEqual(new DateTime(2023, 08, 30, 2, 56, 51), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 08, 30, 2, 56, 52), model.UpdatedAt);
-        Assert.AreEqual(new DateTime(2023, 08, 30, 3, 0, 40), model.PushedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.PushedAt);
         Assert.AreEqual("git://github.com/githubuser/TestGitHubApps.git", model.GitURL);
         Assert.AreEqual("git@github.com:githubuser/TestGitHubApps.git", model.SSH_URL);
         Assert.AreEqual("https://github.com/githubuser/TestGitHubApps.git", model.CloneURL);
@@ -507,9 +507,9 @@ public partial class UnitTestEventReader
         Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/labels{/name}", model.LabelsURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/releases{/id}", model.ReleasesURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/deployments", model.DeploymentsURL);
-        Assert.AreEqual(new DateTime(2023, 09, 2, 17, 25, 31), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 09, 2, 17, 25, 31), model.UpdatedAt);
-        Assert.AreEqual(new DateTime(2023, 08, 30, 4, 32, 19), model.PushedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.PushedAt);
         Assert.AreEqual("git://github.com/githubuser2/TestGitHubAppsForked.git", model.GitURL);
         Assert.AreEqual("git@github.com:githubuser2/TestGitHubAppsForked.git", model.SSH_URL);
         Assert.AreEqual("https://github.com/githubuser2/TestGitHubAppsForked.git", model.CloneURL);
