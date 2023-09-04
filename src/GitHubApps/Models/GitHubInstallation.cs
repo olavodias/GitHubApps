@@ -107,7 +107,7 @@ public sealed class GitHubInstallation
 	/// <summary>
 	/// The user who suspended the installation
 	/// </summary>
-	public string? SuspendedBy { get; set; }
+	public GitHubAccount? SuspendedBy { get; set; }
 	/// <summary>
 	/// The date and time the installation was suspended
 	/// </summary>
