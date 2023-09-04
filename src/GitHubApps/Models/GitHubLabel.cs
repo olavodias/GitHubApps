@@ -25,6 +25,8 @@
 // THE SOFTWARE.
 // *****************************************************************************
 using System;
+using Newtonsoft.Json;
+
 namespace GitHubApps.Models;
 
 /// <summary>
@@ -42,7 +44,8 @@ public sealed class GitHubLabel
     /// <summary>
     /// Defines whether the label is the default or not
     /// </summary>
-    public bool? Default { get; set; }
+    [JsonProperty("default")]
+    public bool? IsDefault { get; set; }
     /// <summary>
     /// The description of the label
     /// </summary>

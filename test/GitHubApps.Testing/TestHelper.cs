@@ -55,13 +55,12 @@ public static class TestHelper
     /// <param name="args">The path where the example file is located</param>
     /// <returns>A <see cref="GitHubEvent{TMainClass}"/> of type <typeparamref name="TGitHubObject"/> or null if not found</returns>
     public static GitHubDelivery<TGitHubObject>? GetGitHubObject<TGitHubObject>(params string[] args)
-        where TGitHubObject : GitHubEvent<TGitHubObject>
+        where TGitHubObject: GitHubEvent
     {
         try
         {
             var contents = GetFileData(args) ?? throw new InvalidDataException("Unable to load data from file");
-            
-            return GitHubDelivery<TGitHubObject>.ConvertFromJSON(contents);
+            return GitHubDelivery<TGitHubObject>.ConvertFromJSON(contents);           
         }
         catch (Exception ex)
         {
@@ -70,7 +69,11 @@ public static class TestHelper
         }        
     }
 
-
+    /// <summary>
+    /// Dump the exception into a formatted text
+    /// </summary>
+    /// <param name="e">The exception to dump</param>
+    /// <param name="level">The level of indentation</param>
     public static void DumpException(Exception e, int level)
     {
         var sbDump = new StringBuilder();
@@ -79,6 +82,12 @@ public static class TestHelper
         Debug.WriteLine(sbDump.ToString());
     }
 
+    /// <summary>
+    /// Dump the exception into a formatted text
+    /// </summary>
+    /// <param name="stringBuilder">The String Builder to append data to</param>
+    /// <param name="e">The exception to dump</param>
+    /// <param name="level">The level of indentation</param>
     private static void DumpException(StringBuilder stringBuilder, Exception e, int level)
     {
         var padding = (level > 0 ? '\u2514' : null) +

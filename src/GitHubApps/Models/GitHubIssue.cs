@@ -99,7 +99,8 @@ public sealed class GitHubIssue
     /// <summary>
     /// A flag to define whether the issue is locked or not
     /// </summary>
-    public bool? Locked { get; set; }
+    [JsonProperty("locked")]
+    public bool? IsLocked { get; set; }
     /// <summary>
     /// A collection of related issues and pull requests
     /// </summary>
