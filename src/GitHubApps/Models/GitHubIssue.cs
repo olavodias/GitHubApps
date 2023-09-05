@@ -25,7 +25,9 @@
 // THE SOFTWARE.
 // *****************************************************************************
 using System;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 
 namespace GitHubApps.Models;
 
@@ -40,6 +42,7 @@ public sealed class GitHubIssue
     /// <summary>
     /// The reason why there is a lock on the Issue
     /// </summary>
+    [JsonConverter(typeof(StringEnumConverter))]
     public GitHubIssueActiveLockReasons? ActiveLockReason { get; set; }
     /// <summary>
     /// The user to whom the issue is assigned
@@ -228,12 +231,12 @@ public enum GitHubIssueActiveLockReasons
     /// <summary>
     /// The issue is off-topic
     /// </summary>
-    [JsonProperty("off-topic")]
+    [EnumMember(Value = "off-topic")]
     OffTopic,
     /// <summary>
     /// The issue is too heated
     /// </summary>
-    [JsonProperty("too heated")]
+    [EnumMember(Value = "too heated")]
     TooHeated,
     /// <summary>
     /// The issue is flagged as a spam
