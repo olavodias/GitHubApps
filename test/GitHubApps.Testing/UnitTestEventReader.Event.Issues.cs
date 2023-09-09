@@ -636,6 +636,7 @@ public partial class UnitTestEventReader
     /// Validates a <see cref="GitHubIssue"/>
     /// </summary>
     /// <param name="model">The <see cref="GitHubIssue"/> to be validated</param>
+    /// <param name="memberName">The name of the method calling the function</param>
     private void ValidateIssue(GitHubIssue model, [CallerMemberName] string memberName = "")
     {
         // Issue Root Elements

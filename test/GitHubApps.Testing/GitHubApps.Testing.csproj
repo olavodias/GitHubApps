@@ -33,6 +33,7 @@
     <None Remove="Payload\Repository\" />
     <None Remove="Payload\InstallationRepositories\" />
     <None Remove="Payload\SecurityAdvisory\" />
+    <None Remove="Payload\Label\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Payload\" />
@@ -52,6 +53,7 @@
     <Folder Include="Payload\Repository\" />
     <Folder Include="Payload\InstallationRepositories\" />
     <Folder Include="Payload\SecurityAdvisory\" />
+    <Folder Include="Payload\Label\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\GitHubApps\GitHubApps.csproj" />
@@ -175,6 +177,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Payload\Watch\Watch.Started.01.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Label\Label.Created.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Label\Label.Deleted.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Label\Label.Edited.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
