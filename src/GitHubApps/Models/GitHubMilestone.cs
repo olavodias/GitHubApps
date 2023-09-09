@@ -74,7 +74,7 @@ public sealed class GitHubMilestone
     /// </summary>
     public string? LabelsURL { get; set; }
     /// <include file="documentation_shared.xml" path="Documentation/RepetitiveProperties/RepetitiveProperty[@name=NodeID]"/>
-    public long NodeID { get; set; }
+    public string? NodeID { get; set; }
     /// <summary>
     /// The number of the milestone
     /// </summary>

@@ -71,7 +71,6 @@ public partial class UnitTestEventReader
         // Validate Sender
         Assert.IsNotNull(obj.Payload.Sender);
         ValidateDefaultAccount(obj.Payload.Sender);
-
     }
 
     /// <summary>
