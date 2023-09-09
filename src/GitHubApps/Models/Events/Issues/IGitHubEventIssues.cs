@@ -90,7 +90,7 @@ internal interface IGitHubEventIssues
     /// An issue was transferred to another repository
     /// </summary>
     /// <include file='documentation_shared.xml' path='Documentation/ActionHandlers/*'/>
-    EventResult OnEventIssuesTransferred(GitHubDelivery<GitHubEventIssuesChanged> payload);
+    EventResult OnEventIssuesTransferred(GitHubDelivery<GitHubEventIssuesTransferred> payload);
     /// <summary>
     /// A user was unassigned from an issue
     /// </summary>

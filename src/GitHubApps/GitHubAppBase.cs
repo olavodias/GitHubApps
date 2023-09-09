@@ -298,7 +298,7 @@ public abstract class GitHubAppBase : IGitHubApp,
         return action switch
         {
             GitHubEventActions.EVENT_ACTION_OPENED => @event.OnEventIssuesOpened(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesChanged>.ConvertFromJSON(requestBody))),
-            GitHubEventActions.EVENT_ACTION_TRANSFERRED => @event.OnEventIssuesTransferred(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesChanged>.ConvertFromJSON(requestBody))),
+            GitHubEventActions.EVENT_ACTION_TRANSFERRED => @event.OnEventIssuesTransferred(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesTransferred>.ConvertFromJSON(requestBody))),
             GitHubEventActions.EVENT_ACTION_ASSIGNED => @event.OnEventIssuesAssigned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesAssigned>.ConvertFromJSON(requestBody))),
             GitHubEventActions.EVENT_ACTION_UNASSIGNED => @event.OnEventIssuesUnassigned(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssuesAssigned>.ConvertFromJSON(requestBody))),
             GitHubEventActions.EVENT_ACTION_CLOSED => @event.OnEventIssuesClosed(payloadHeaders.ConvertToTypedDelivery(GitHubEvent<GitHubEventIssues>.ConvertFromJSON(requestBody))),
@@ -384,7 +384,7 @@ public abstract class GitHubAppBase : IGitHubApp,
     }
 
     /// <inheritdoc/>
-    public virtual EventResult OnEventIssuesTransferred(GitHubDelivery<GitHubEventIssuesChanged> payload)
+    public virtual EventResult OnEventIssuesTransferred(GitHubDelivery<GitHubEventIssuesTransferred> payload)
     {
         throw new UnhandledEventActionException(payload.Event, GitHubEventActions.EVENT_ACTION_TRANSFERRED);
     }
