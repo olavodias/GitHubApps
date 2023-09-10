@@ -268,13 +268,41 @@ public partial class UnitTestEventReader
         Assert.IsNotNull(obj.Payload.Installation);
         ValidateSimplifiedInstallation(obj.Payload.Installation);
     }
+
+    /// <summary>
+    /// Test the event <see cref="GitHubEventPullRequest"/> for action <see cref="GitHubEventActions.EVENT_ACTION_LOCKED"/>
+    /// </summary>
     [TestMethod]
     public void TestEventPullRequestLocked()
     {
-        //TODO: Implement
-    }
-    
+        // Test File to Serialize
+        var obj = TestHelper.GetGitHubObject<GitHubEventPullRequest>("Payload", "PullRequest", "PullRequest.Locked.json");
 
+        Assert.IsNotNull(obj);
+
+        // Validate Payload Properties
+        Assert.AreEqual(GitHubEvents.EVENT_PULL_REQUEST, obj.Event);
+
+        Assert.IsNotNull(obj.Payload);
+        Assert.AreEqual(GitHubEventActions.EVENT_ACTION_LOCKED, obj.Payload.Action);
+        Assert.AreEqual(5, obj.Payload.Number);
+
+        // Validate Pull Request
+        Assert.IsNotNull(obj.Payload.PullRequest);
+        ValidatePullRequest(obj.Payload.PullRequest);
+
+        // Validate Repository
+        Assert.IsNotNull(obj.Payload.Repository);
+        ValidateDefaultRepository(obj.Payload.Repository);
+
+        // Validate Sender
+        Assert.IsNotNull(obj.Payload.Sender);
+        ValidateDefaultAccount(obj.Payload.Sender);
+
+        // Validate Installation
+        Assert.IsNotNull(obj.Payload.Installation);
+        ValidateSimplifiedInstallation(obj.Payload.Installation);
+    }
 
     #region Model Validation
 
@@ -314,7 +342,6 @@ public partial class UnitTestEventReader
 
         Assert.AreEqual(GitHubAuthorAssociations.OWNER, model.AuthorAssociation);
         Assert.IsNull(model.AutoMerge);
-        Assert.IsNull(model.ActiveLockReason);
         Assert.IsFalse(model.IsMerged);
         Assert.IsTrue(model.IsMergeable);
         Assert.AreEqual("clean", model.MergeableState);
@@ -326,6 +353,19 @@ public partial class UnitTestEventReader
         Assert.AreEqual(3, model.Additions);
         Assert.AreEqual(0, model.Deletions);
         Assert.AreEqual(1, model.ChangedFiles);
+
+        // Validate Active Lock Reason
+        switch (memberName)
+        {
+            case nameof(TestEventPullRequestLocked):
+                Assert.AreEqual(GitHubIssueActiveLockReasons.OffTopic, model.ActiveLockReason);
+                break;
+
+            default:
+                Assert.IsNull(model.ActiveLockReason);
+                break;
+        }
+        
 
         // Validate IsRebaseable
         switch (memberName)
