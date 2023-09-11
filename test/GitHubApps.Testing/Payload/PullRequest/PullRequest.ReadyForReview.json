@@ -1,7 +1,7 @@
 ﻿{
   "event": "pull_request",
   "payload": {
-    "action": "labeled",
+    "action": "ready_for_review",
     "number": 5,
     "pull_request": {
       "url": "https://api.github.com/repos/githubuser/TestGitHubApps/pulls/5",
@@ -45,17 +45,7 @@
       "assignees": [],
       "requested_reviewers": [],
       "requested_teams": [],
-      "labels": [
-        {
-          "id": 5902421725,
-          "node_id": "LA_kwDOKNJSy88AAAABX8_O3Q",
-          "url": "https://api.github.com/repos/githubuser/TestGitHubApps/labels/enhancement",
-          "name": "enhancement",
-          "color": "a2eeef",
-          "default": true,
-          "description": "New feature or request"
-        }
-      ],
+      "labels": [],
       "milestone": null,
       "draft": false,
       "commits_url": "https://api.github.com/repos/githubuser/TestGitHubApps/pulls/5/commits",
@@ -360,15 +350,6 @@
       "additions": 3,
       "deletions": 0,
       "changed_files": 1
-    },
-    "label": {
-      "id": 5902421725,
-      "node_id": "LA_kwDOKNJSy88AAAABX8_O3Q",
-      "url": "https://api.github.com/repos/githubuser/TestGitHubApps/labels/enhancement",
-      "name": "enhancement",
-      "color": "a2eeef",
-      "default": true,
-      "description": "New feature or request"
     },
     "repository": {
       "id": 684872395,

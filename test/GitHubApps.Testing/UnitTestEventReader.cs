@@ -25,8 +25,10 @@
 // THE SOFTWARE.
 // *****************************************************************************
 
+#pragma warning disable CS0618 // Type or member is obsolete
 #pragma warning disable CA1822 // Mark members as static
 
+using System.Runtime.CompilerServices;
 using GitHubApps.Models;
 using GitHubApps.Models.Events;
 
@@ -372,8 +374,9 @@ public partial class UnitTestEventReader
     /// <summary>
     /// Validates a <see cref="GitHubRepository"/>
     /// </summary>
-    /// <param name="model"></param>
-    private void ValidateDefaultRepository(GitHubRepository model)
+    /// <param name="model">The <see cref="GitHubRepository"/> to be validated</param>
+    /// <param name="memberName">The name of the method calling the function</param>
+    private void ValidateDefaultRepository(GitHubRepository model, [CallerMemberName] string memberName = "")
     {
         Assert.AreEqual(684872395, model.ID);
         Assert.AreEqual("R_kgDOKNJSyw", model.NodeID);
@@ -454,6 +457,25 @@ public partial class UnitTestEventReader
         Assert.AreEqual(0, model.OpenIssues);
         Assert.AreEqual(0, model.Watchers);
         Assert.AreEqual("main", model.DefaultBranch);
+
+        switch (memberName)
+        {
+            case nameof(ValidatePullRequestBaseDev):
+            case nameof(ValidatePullRequestBaseMain):
+                Assert.IsTrue(model.AllowSquashMerge);
+                Assert.IsTrue(model.AllowMergeCommit);
+                Assert.IsTrue(model.AllowRebaseMerge);
+                Assert.IsFalse(model.AllowAutoMerge);
+                Assert.IsFalse(model.DeleteBranchOnMerge);
+                Assert.IsFalse(model.AllowUpdateBranch);
+                Assert.IsFalse(model.UseSquashPrTitleAsDefault);
+                Assert.AreEqual(GitHubRepositorySquashMergeCommitMessage.COMMIT_MESSAGES, model.SquashMergeCommitMessage);
+                Assert.AreEqual(GitHubRepositorySquashMergeCommitTitles.COMMIT_OR_PR_TITLE, model.SquashMergeCommitTitle);
+                Assert.AreEqual(GitHubRepositoryMergeCommitMessages.PR_TITLE, model.MergeCommitMessage);
+                Assert.AreEqual(GitHubRepositoryMergeCommitTitles.MERGE_MESSAGE, model.MergeCommitTitle);
+                break;
+        }
+
     }
 
     /// <summary>
@@ -548,3 +570,4 @@ public partial class UnitTestEventReader
 }
 
 #pragma warning restore CA1822 // Mark members as static
+#pragma warning restore CS0618 // Type or member is obsolete

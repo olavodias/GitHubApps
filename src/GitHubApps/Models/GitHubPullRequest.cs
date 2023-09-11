@@ -45,7 +45,7 @@ public sealed class GitHubPullRequest
     /// <summary>
     /// The Reason why the Pull Request is locked
     /// </summary>
-    public GitHubIssueActiveLockReasons? ActiveLockReasons { get; set; }
+    public GitHubIssueActiveLockReasons? ActiveLockReason { get; set; }
     /// <summary>
     /// The count of additions
     /// </summary>
@@ -116,7 +116,8 @@ public sealed class GitHubPullRequest
     /// <summary>
     /// Defines whether the pull request is a draft or not
     /// </summary>
-    public bool? Draft { get; set; }
+    [JsonProperty("draft")]
+    public bool? IsDraft { get; set; }
     /// <summary>
     /// The head of the pull request
     /// </summary>
@@ -140,7 +141,8 @@ public sealed class GitHubPullRequest
     /// <summary>
     /// Defines whether the Pull Request is locked or not
     /// </summary>
-    public bool? Locked { get; set; }
+    [JsonProperty("locked")]
+    public bool? IsLocked { get; set; }
     /// <summary>
     /// Indicates whether maintainers can modify the pull request
     /// </summary>
@@ -152,7 +154,8 @@ public sealed class GitHubPullRequest
     /// <summary>
     /// Indicates whether the pull request is mergeable or not
     /// </summary>
-    public bool? Mergeable { get; set; }
+    [JsonProperty("mergeable")]
+    public bool? IsMergeable { get; set; }
     /// <summary>
     /// The mergeable state
     /// </summary>
@@ -160,7 +163,8 @@ public sealed class GitHubPullRequest
     /// <summary>
     /// Indicates whether the pull request was merged or not
     /// </summary>
-    public bool? Merged { get; set; }
+    [JsonProperty("merged")]
+    public bool? IsMerged { get; set; }
     /// <summary>
     /// The Merge At
     /// </summary>
@@ -187,7 +191,8 @@ public sealed class GitHubPullRequest
     /// <summary>
     /// Indicates whether the branch is rebaseable or not
     /// </summary>
-    public bool? Rebaseable { get; set; }
+    [JsonProperty("rebaseable")]
+    public bool? IsRebaseable { get; set; }
     /// <summary>
     /// An array of users requested to review the pull request
     /// </summary>
@@ -196,6 +201,15 @@ public sealed class GitHubPullRequest
     /// An array of teams requested to review the pull request
     /// </summary>
     public GitHubRequestedTeam[]? RequestedTeams { get; set; }
+    /// <summary>
+    /// The total of review comments
+    /// </summary>
+    public int ReviewComments { get; set; }
+    /// <summary>
+    /// The URL for Review Comment
+    /// </summary>
+    [JsonProperty("review_comment_url")]
+    public string? ReviewCommentURL { get; set; }
     /// <summary>
     /// The URL for Review Comments
     /// </summary>
