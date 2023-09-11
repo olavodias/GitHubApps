@@ -236,7 +236,7 @@
     </None>
 
     <!-- Push Event -->
-    <None Update="Payload\Push\Push.01.json">
+    <None Update="Payload\Push\Push.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Payload\Push\Push.02.json">

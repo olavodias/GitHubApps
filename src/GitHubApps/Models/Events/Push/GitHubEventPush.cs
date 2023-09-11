@@ -25,6 +25,8 @@
 // THE SOFTWARE.
 // *****************************************************************************
 using System;
+using Newtonsoft.Json;
+
 namespace GitHubApps.Models.Events;
 
 /// <summary>
@@ -63,15 +65,18 @@ public class GitHubEventPush: GitHubEvent<GitHubEventPush>
     /// <summary>
     /// Whether this push created the <see cref="Ref"/>
     /// </summary>
-    public bool? Created { get; set; }
+    [JsonProperty("created")]
+    public bool? IsCreated { get; set; }
     /// <summary>
     /// Whether this push deleted the <see cref="Ref"/>
     /// </summary>
-    public bool? Deleted { get; set; }
+    [JsonProperty("deleted")]
+    public bool? IsDeleted { get; set; }
     /// <summary>
     /// Whether this push was a force push to the <see cref="Ref"/>
     /// </summary>
-    public bool? Forced { get; set; }
+    [JsonProperty("forced")]
+    public bool? IsForced { get; set; }
     /// <summary>
     /// The head commit
     /// </summary>

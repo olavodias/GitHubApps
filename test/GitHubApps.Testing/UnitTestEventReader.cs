@@ -158,6 +158,53 @@ public partial class UnitTestEventReader
         ValidateSimplifiedInstallation(obj.Payload.Installation);
     }
 
+    /// <summary>
+    /// Test the <see cref="GitHubEventPush"/> class
+    /// </summary>
+    [TestMethod]
+    public void TestEventPush()
+    {
+        // Test File to Serialize
+        var obj = TestHelper.GetGitHubObject<GitHubEventPush>("Payload", "Push", "Push.json");
+
+        Assert.IsNotNull(obj);
+
+        // Validate Payload Properties
+        Assert.AreEqual(GitHubEvents.EVENT_PUSH, obj.Event);
+        Assert.IsNotNull(obj.Payload);
+
+        Assert.AreEqual("refs/heads/dev", obj.Payload.Ref);
+        Assert.AreEqual("0000000000000000000000000000000000000000", obj.Payload.Before);
+        Assert.AreEqual("41203e3015ea1e86240d781a0efd3c9aa671dfdf", obj.Payload.After);
+        Assert.IsTrue(obj.Payload.IsCreated);
+        Assert.IsFalse(obj.Payload.IsDeleted);
+        Assert.IsFalse(obj.Payload.IsForced);
+        Assert.AreEqual("refs/heads/main", obj.Payload.BaseRef);
+        Assert.AreEqual("https://github.com/githubuser/TestGitHubApps/compare/dev", obj.Payload.Compare);
+
+        Assert.IsNotNull(obj.Payload.Commits);
+        Assert.AreEqual(0, obj.Payload.Commits.Length);
+
+        // Validate Repository Object
+        Assert.IsNotNull(obj.Payload.Repository);
+        ValidateDefaultRepository(obj.Payload.Repository);
+
+        // Validate Pusher
+        Assert.IsNotNull(obj.Payload.Pusher);
+        ValidateDefaultAccountMetadataOnly(obj.Payload.Pusher);
+
+        // Validate Sender
+        Assert.IsNotNull(obj.Payload.Sender);
+        ValidateDefaultAccount(obj.Payload.Sender);
+
+        // Validate Installation
+        Assert.IsNotNull(obj.Payload.Installation);
+        ValidateSimplifiedInstallation(obj.Payload.Installation);
+
+        //TODO: Validate Head Commit
+        Assert.Fail();
+    }
+
     #region Model Validation
 
     /// <summary>
@@ -197,6 +244,16 @@ public partial class UnitTestEventReader
         Assert.AreEqual("https://api.github.com/users/githubuser/received_events", model.ReceivedEventsURL);
         Assert.AreEqual(GitHubAccountTypes.User, model.Type);
         Assert.IsFalse(model.IsSiteAdmin);
+    }
+
+    /// <summary>
+    /// Validates a <see cref="GitHubAccountMetaProperties"/> object
+    /// </summary>
+    /// <param name="model">The <see cref="GitHubAccountMetaProperties"/> to be validated</param>
+    private void ValidateDefaultAccountMetadataOnly(GitHubAccountMetaProperties model)
+    {
+        Assert.AreEqual("githubuser", model.Name);
+        Assert.AreEqual("32257178+githubuser@users.noreply.github.com", model.Email);
     }
 
     /// <summary>
