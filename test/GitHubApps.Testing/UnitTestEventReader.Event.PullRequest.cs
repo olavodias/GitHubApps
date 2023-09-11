@@ -304,6 +304,270 @@ public partial class UnitTestEventReader
         ValidateSimplifiedInstallation(obj.Payload.Installation);
     }
 
+    /// <summary>
+    /// Test the event <see cref="GitHubEventPullRequest"/> for action <see cref="GitHubEventActions.EVENT_ACTION_MILESTONED"/>
+    /// </summary>
+    [TestMethod]
+    public void TestEventPullRequestMilestoned()
+    {
+        // Test File to Serialize
+        var obj = TestHelper.GetGitHubObject<GitHubEventPullRequestMilestoned>("Payload", "PullRequest", "PullRequest.Milestoned.json");
+
+        Assert.IsNotNull(obj);
+
+        // Validate Payload Properties
+        Assert.AreEqual(GitHubEvents.EVENT_PULL_REQUEST, obj.Event);
+
+        Assert.IsNotNull(obj.Payload);
+        Assert.AreEqual(GitHubEventActions.EVENT_ACTION_MILESTONED, obj.Payload.Action);
+        Assert.AreEqual(5, obj.Payload.Number);
+
+        // Validate Pull Request
+        Assert.IsNotNull(obj.Payload.PullRequest);
+        ValidatePullRequest(obj.Payload.PullRequest);
+
+        // Validate Milestone
+        Assert.IsNotNull(obj.Payload.Milestone);
+        ValidateMilestone(obj.Payload.Milestone);
+
+        // Validate Repository
+        Assert.IsNotNull(obj.Payload.Repository);
+        ValidateDefaultRepository(obj.Payload.Repository);
+
+        // Validate Sender
+        Assert.IsNotNull(obj.Payload.Sender);
+        ValidateDefaultAccount(obj.Payload.Sender);
+
+        // Validate Installation
+        Assert.IsNotNull(obj.Payload.Installation);
+        ValidateSimplifiedInstallation(obj.Payload.Installation);
+    }
+
+    /// <summary>
+    /// Test the event <see cref="GitHubEventPullRequest"/> for action <see cref="GitHubEventActions.EVENT_ACTION_OPENED"/>
+    /// </summary>
+    [TestMethod]
+    public void TestEventPullRequestOpened()
+    {
+        // Test File to Serialize
+        var obj = TestHelper.GetGitHubObject<GitHubEventPullRequest>("Payload", "PullRequest", "PullRequest.Opened.json");
+
+        Assert.IsNotNull(obj);
+
+        // Validate Payload Properties
+        Assert.AreEqual(GitHubEvents.EVENT_PULL_REQUEST, obj.Event);
+
+        Assert.IsNotNull(obj.Payload);
+        Assert.AreEqual(GitHubEventActions.EVENT_ACTION_OPENED, obj.Payload.Action);
+        Assert.AreEqual(5, obj.Payload.Number);
+
+        // Validate Pull Request
+        Assert.IsNotNull(obj.Payload.PullRequest);
+        ValidatePullRequest(obj.Payload.PullRequest);
+
+        // Validate Repository
+        Assert.IsNotNull(obj.Payload.Repository);
+        ValidateDefaultRepository(obj.Payload.Repository);
+
+        // Validate Sender
+        Assert.IsNotNull(obj.Payload.Sender);
+        ValidateDefaultAccount(obj.Payload.Sender);
+
+        // Validate Installation
+        Assert.IsNotNull(obj.Payload.Installation);
+        ValidateSimplifiedInstallation(obj.Payload.Installation);
+    }
+
+    /// <summary>
+    /// Test the event <see cref="GitHubEventPullRequest"/> for action <see cref="GitHubEventActions.EVENT_ACTION_READY_FOR_REVIEW"/>
+    /// </summary>
+    [TestMethod]
+    public void TestEventPullRequestReadyForReview()
+    {
+        // Test File to Serialize
+        var obj = TestHelper.GetGitHubObject<GitHubEventPullRequest>("Payload", "PullRequest", "PullRequest.ReadyForReview.json");
+
+        Assert.IsNotNull(obj);
+
+        // Validate Payload Properties
+        Assert.AreEqual(GitHubEvents.EVENT_PULL_REQUEST, obj.Event);
+
+        Assert.IsNotNull(obj.Payload);
+        Assert.AreEqual(GitHubEventActions.EVENT_ACTION_READY_FOR_REVIEW, obj.Payload.Action);
+        Assert.AreEqual(5, obj.Payload.Number);
+
+        // Validate Pull Request
+        Assert.IsNotNull(obj.Payload.PullRequest);
+        ValidatePullRequest(obj.Payload.PullRequest);
+
+        // Validate Repository
+        Assert.IsNotNull(obj.Payload.Repository);
+        ValidateDefaultRepository(obj.Payload.Repository);
+
+        // Validate Sender
+        Assert.IsNotNull(obj.Payload.Sender);
+        ValidateDefaultAccount(obj.Payload.Sender);
+
+        // Validate Installation
+        Assert.IsNotNull(obj.Payload.Installation);
+        ValidateSimplifiedInstallation(obj.Payload.Installation);
+    }
+
+    /// <summary>
+    /// Test the event <see cref="GitHubEventPullRequest"/> for action <see cref="GitHubEventActions.EVENT_ACTION_REOPENED"/>
+    /// </summary>
+    [TestMethod]
+    public void TestEventPullRequestReopened()
+    {
+        // Test File to Serialize
+        var obj = TestHelper.GetGitHubObject<GitHubEventPullRequest>("Payload", "PullRequest", "PullRequest.Reopened.json");
+
+        Assert.IsNotNull(obj);
+
+        // Validate Payload Properties
+        Assert.AreEqual(GitHubEvents.EVENT_PULL_REQUEST, obj.Event);
+
+        Assert.IsNotNull(obj.Payload);
+        Assert.AreEqual(GitHubEventActions.EVENT_ACTION_REOPENED, obj.Payload.Action);
+        Assert.AreEqual(5, obj.Payload.Number);
+
+        // Validate Pull Request
+        Assert.IsNotNull(obj.Payload.PullRequest);
+        ValidatePullRequest(obj.Payload.PullRequest);
+
+        // Validate Repository
+        Assert.IsNotNull(obj.Payload.Repository);
+        ValidateDefaultRepository(obj.Payload.Repository);
+
+        // Validate Sender
+        Assert.IsNotNull(obj.Payload.Sender);
+        ValidateDefaultAccount(obj.Payload.Sender);
+
+        // Validate Installation
+        Assert.IsNotNull(obj.Payload.Installation);
+        ValidateSimplifiedInstallation(obj.Payload.Installation);
+    }
+
+    /// <summary>
+    /// Test the event <see cref="GitHubEventPullRequest"/> for action <see cref="GitHubEventActions.EVENT_ACTION_UNASSIGNED"/>
+    /// </summary>
+    [TestMethod]
+    public void TestEventPullRequestUnassigned()
+    {
+        // Test File to Serialize
+        var obj = TestHelper.GetGitHubObject<GitHubEventPullRequestAssigned>("Payload", "PullRequest", "PullRequest.Unassigned.json");
+
+        Assert.IsNotNull(obj);
+
+        // Validate Payload Properties
+        Assert.AreEqual(GitHubEvents.EVENT_PULL_REQUEST, obj.Event);
+
+        Assert.IsNotNull(obj.Payload);
+        Assert.AreEqual(GitHubEventActions.EVENT_ACTION_UNASSIGNED, obj.Payload.Action);
+        Assert.AreEqual(5, obj.Payload.Number);
+
+        // Validate Pull Request
+        Assert.IsNotNull(obj.Payload.PullRequest);
+        ValidatePullRequest(obj.Payload.PullRequest);
+
+        // Validate Assignee
+        Assert.IsNotNull(obj.Payload.Assignee);
+        ValidateDefaultAccount(obj.Payload.Assignee);
+
+        // Validate Repository
+        Assert.IsNotNull(obj.Payload.Repository);
+        ValidateDefaultRepository(obj.Payload.Repository);
+
+        // Validate Sender
+        Assert.IsNotNull(obj.Payload.Sender);
+        ValidateDefaultAccount(obj.Payload.Sender);
+
+        // Validate Installation
+        Assert.IsNotNull(obj.Payload.Installation);
+        ValidateSimplifiedInstallation(obj.Payload.Installation);
+    }
+
+    /// <summary>
+    /// Test the event <see cref="GitHubEventPullRequest"/> for action <see cref="GitHubEventActions.EVENT_ACTION_UNLABELED"/>
+    /// </summary>
+    [TestMethod]
+    public void TestEventPullRequestUnlabeled()
+    {
+        // Test File to Serialize
+        var obj = TestHelper.GetGitHubObject<GitHubEventPullRequestLabeled>("Payload", "PullRequest", "PullRequest.Unlabeled.json");
+
+        Assert.IsNotNull(obj);
+
+        // Validate Payload Properties
+        Assert.AreEqual(GitHubEvents.EVENT_PULL_REQUEST, obj.Event);
+
+        Assert.IsNotNull(obj.Payload);
+        Assert.AreEqual(GitHubEventActions.EVENT_ACTION_UNLABELED, obj.Payload.Action);
+        Assert.AreEqual(5, obj.Payload.Number);
+
+        // Validate Pull Request
+        Assert.IsNotNull(obj.Payload.PullRequest);
+        ValidatePullRequest(obj.Payload.PullRequest);
+
+        // Validate Label
+        Assert.IsNotNull(obj.Payload.Label);
+        Assert.AreEqual(5902421725, obj.Payload.Label.ID);
+        Assert.AreEqual("LA_kwDOKNJSy88AAAABX8_O3Q", obj.Payload.Label.NodeID);
+        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/labels/enhancement", obj.Payload.Label.URL);
+        Assert.AreEqual("enhancement", obj.Payload.Label.Name);
+        Assert.AreEqual("a2eeef", obj.Payload.Label.Color);
+        Assert.AreEqual("New feature or request", obj.Payload.Label.Description);
+        Assert.IsTrue(obj.Payload.Label.IsDefault);
+
+        // Validate Repository
+        Assert.IsNotNull(obj.Payload.Repository);
+        ValidateDefaultRepository(obj.Payload.Repository);
+
+        // Validate Sender
+        Assert.IsNotNull(obj.Payload.Sender);
+        ValidateDefaultAccount(obj.Payload.Sender);
+
+        // Validate Installation
+        Assert.IsNotNull(obj.Payload.Installation);
+        ValidateSimplifiedInstallation(obj.Payload.Installation);
+    }
+
+    /// <summary>
+    /// Test the event <see cref="GitHubEventPullRequest"/> for action <see cref="GitHubEventActions.EVENT_ACTION_UNLOCKED"/>
+    /// </summary>
+    [TestMethod]
+    public void TestEventPullRequestUnlocked()
+    {
+        // Test File to Serialize
+        var obj = TestHelper.GetGitHubObject<GitHubEventPullRequest>("Payload", "PullRequest", "PullRequest.Unlocked.json");
+
+        Assert.IsNotNull(obj);
+
+        // Validate Payload Properties
+        Assert.AreEqual(GitHubEvents.EVENT_PULL_REQUEST, obj.Event);
+
+        Assert.IsNotNull(obj.Payload);
+        Assert.AreEqual(GitHubEventActions.EVENT_ACTION_UNLOCKED, obj.Payload.Action);
+        Assert.AreEqual(5, obj.Payload.Number);
+
+        // Validate Pull Request
+        Assert.IsNotNull(obj.Payload.PullRequest);
+        ValidatePullRequest(obj.Payload.PullRequest);
+
+        // Validate Repository
+        Assert.IsNotNull(obj.Payload.Repository);
+        ValidateDefaultRepository(obj.Payload.Repository);
+
+        // Validate Sender
+        Assert.IsNotNull(obj.Payload.Sender);
+        ValidateDefaultAccount(obj.Payload.Sender);
+
+        // Validate Installation
+        Assert.IsNotNull(obj.Payload.Installation);
+        ValidateSimplifiedInstallation(obj.Payload.Installation);
+    }
+
+
     #region Model Validation
 
     /// <summary>
@@ -370,6 +634,7 @@ public partial class UnitTestEventReader
         // Validate IsRebaseable
         switch (memberName)
         {
+            case nameof(TestEventPullRequestOpened):
             case nameof(TestEventPullRequestClosed):
                 Assert.IsFalse(model.IsRebaseable);
                 break;
@@ -461,7 +726,18 @@ public partial class UnitTestEventReader
         }
 
         // Validate Milestone
-        Assert.IsNull(model.Milestone);
+        switch (memberName)
+        {
+            case nameof(TestEventPullRequestMilestoned):
+                Assert.IsNotNull(model.Milestone);
+                ValidateMilestone(model.Milestone);
+
+                break;
+
+            default:
+                Assert.IsNull(model.Milestone);
+                break;
+        }        
 
         // Validate IsDraft
         switch (memberName)

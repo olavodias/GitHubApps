@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 // *****************************************************************************
-// https://smee.io/L1v2BjhhIgo8Oiso
+
 #pragma warning disable CS0618 // Type or member is obsolete
 #pragma warning disable CA1822 // Mark members as static
 
