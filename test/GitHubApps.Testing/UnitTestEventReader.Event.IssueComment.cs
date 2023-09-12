@@ -170,8 +170,8 @@ public partial class UnitTestEventReader
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/issues/3", model.IssueURL);
         Assert.AreEqual(1705529943, model.ID);
         Assert.AreEqual("IC_kwDOKNJSy85lqFJX", model.NodeID);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
+        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
+        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
         Assert.AreEqual(GitHubAuthorAssociations.OWNER, model.AuthorAssociation);
         Assert.AreEqual("Issue Comment", model.Body);
         Assert.IsNull(model.PerformedViaGitHubApp);

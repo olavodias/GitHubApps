@@ -38,8 +38,13 @@ namespace GitHubApps.Testing;
 /// This Unit Testing Class will test the reading of events
 /// </summary>
 [TestClass]
-public partial class UnitTestEventReader
+public sealed partial class UnitTestEventReader
 {
+    /// <summary>
+    /// The default DateTime variable to be used when validating dates
+    /// </summary>
+    private readonly DateTime DefaultDateTime = new(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
     /// <summary>
     /// Test the <see cref="GitHubEventCreate"/> class
     /// </summary>
@@ -68,9 +73,9 @@ public partial class UnitTestEventReader
         Assert.AreEqual(0, obj.Payload.Repository.Size);
         Assert.AreEqual(0, obj.Payload.Repository.ForksCount);
         Assert.AreEqual(0, obj.Payload.Repository.Forks);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), obj.Payload.Repository.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), obj.Payload.Repository.UpdatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), obj.Payload.Repository.PushedAt);
+        Assert.AreEqual(DefaultDateTime, obj.Payload.Repository.CreatedAt);
+        Assert.AreEqual(DefaultDateTime, obj.Payload.Repository.UpdatedAt);
+        Assert.AreEqual(DefaultDateTime, obj.Payload.Repository.PushedAt);
 
         // Validate Repository Owner
         Assert.IsNotNull(obj.Payload.Repository.Owner);
@@ -200,6 +205,16 @@ public partial class UnitTestEventReader
     }
 
     /// <summary>
+    /// Validates a <see cref="GitHubAccountMetaProperties"/> object
+    /// </summary>
+    /// <param name="model">The <see cref="GitHubAccountMetaProperties"/> to be validated</param>
+    private void ValidateDefaultAccountMetadataOnly(GitHubAccountMetaProperties model)
+    {
+        Assert.AreEqual("githubuser", model.Name);
+        Assert.AreEqual("32257178+githubuser@users.noreply.github.com", model.Email);
+    }
+
+    /// <summary>
     /// Validates a <see cref="GitHubAccount"/>
     /// </summary>
     /// <param name="model">A <see cref="GitHubAccount"/> to be validated</param>
@@ -295,8 +310,8 @@ public partial class UnitTestEventReader
         for (int i = 0; i < 58; i++)
             Assert.AreEqual(eventList[i], model.Events[i]);
 
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
+        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
+        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
 
         Assert.IsNull(model.SingleFileName);
         Assert.IsFalse(model.HasMultipleSingleFiles);
@@ -423,9 +438,9 @@ public partial class UnitTestEventReader
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/labels{/name}", model.LabelsURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/releases{/id}", model.ReleasesURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/deployments", model.DeploymentsURL);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.PushedAt);
+        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
+        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
+        Assert.AreEqual(DefaultDateTime, model.PushedAt);
         Assert.AreEqual("git://github.com/githubuser/TestGitHubApps.git", model.GitURL);
         Assert.AreEqual("git@github.com:githubuser/TestGitHubApps.git", model.SSH_URL);
         Assert.AreEqual("https://github.com/githubuser/TestGitHubApps.git", model.CloneURL);
@@ -529,9 +544,9 @@ public partial class UnitTestEventReader
         Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/labels{/name}", model.LabelsURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/releases{/id}", model.ReleasesURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/deployments", model.DeploymentsURL);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.PushedAt);
+        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
+        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
+        Assert.AreEqual(DefaultDateTime, model.PushedAt);
         Assert.AreEqual("git://github.com/githubuser2/TestGitHubAppsForked.git", model.GitURL);
         Assert.AreEqual("git@github.com:githubuser2/TestGitHubAppsForked.git", model.SSH_URL);
         Assert.AreEqual("https://github.com/githubuser2/TestGitHubAppsForked.git", model.CloneURL);

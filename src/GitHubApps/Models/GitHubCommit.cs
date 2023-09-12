@@ -25,6 +25,8 @@
 // THE SOFTWARE.
 // *****************************************************************************
 using System;
+using Newtonsoft.Json;
+
 namespace GitHubApps.Models;
 
 /// <summary>
@@ -50,7 +52,8 @@ public sealed class GitHubCommit
     /// <summary>
     /// Whether this commit is distinct from any that have been pushed before
     /// </summary>
-    public bool? Distinct { get; set; }
+    [JsonProperty("distinct")]
+    public bool? IsDistinct { get; set; }
     /// <summary>
     /// The commit ID
     /// </summary>
@@ -70,7 +73,8 @@ public sealed class GitHubCommit
     /// <summary>
     /// The ISO 8601 timestamp of the commit
     /// </summary>
-    public string? Timestamp { get; set; }
+    [JsonConverter(typeof(GitHubDateTimeConverter))]
+    public DateTime? Timestamp { get; set; }
     /// <summary>
     /// The Tree ID
     /// </summary>

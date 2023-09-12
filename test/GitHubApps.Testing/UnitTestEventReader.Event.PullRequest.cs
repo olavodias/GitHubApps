@@ -589,8 +589,8 @@ public partial class UnitTestEventReader
 
         Assert.IsNull(model.Body);
 
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
+        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
+        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
 
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/pulls/5/commits", model.CommitsURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/pulls/5/comments", model.ReviewCommentsURL);
@@ -678,7 +678,7 @@ public partial class UnitTestEventReader
         switch (memberName)
         {
             case nameof(TestEventPullRequestClosed):
-                Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.ClosedAt);
+                Assert.AreEqual(DefaultDateTime, model.ClosedAt);
                 break;
 
             default:

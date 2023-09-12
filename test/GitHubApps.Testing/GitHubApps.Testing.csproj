@@ -34,6 +34,7 @@
     <None Remove="Payload\InstallationRepositories\" />
     <None Remove="Payload\SecurityAdvisory\" />
     <None Remove="Payload\Label\" />
+    <None Remove="ConverterData\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Payload\" />
@@ -54,6 +55,7 @@
     <Folder Include="Payload\InstallationRepositories\" />
     <Folder Include="Payload\SecurityAdvisory\" />
     <Folder Include="Payload\Label\" />
+    <Folder Include="ConverterData\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\GitHubApps\GitHubApps.csproj" />
@@ -236,7 +238,7 @@
     </None>
 
     <!-- Push Event -->
-    <None Update="Payload\Push\Push.01.json">
+    <None Update="Payload\Push\Push.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Payload\Push\Push.02.json">
@@ -259,5 +261,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
 
+    <!-- Converter Data -->
+    <None Update="ConverterData\TemplateDateTime.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

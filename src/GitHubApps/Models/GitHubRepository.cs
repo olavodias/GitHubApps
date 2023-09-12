@@ -113,6 +113,7 @@ public sealed class GitHubRepository
 	/// <summary>
 	/// A date and time representing when the repository was created
 	/// </summary>
+	[JsonConverter(typeof(GitHubDateTimeConverter))]
 	public DateTime? CreatedAt { get; set; }
 	/// <summary>
 	/// The default branch of the repository
@@ -322,10 +323,11 @@ public sealed class GitHubRepository
 	/// The Pulls URL
 	/// </summary>
 	public string? PullsURL { get; set; }
-	/// <summary>
-	/// A date and time when the repository was pushed
-	/// </summary>
-	public DateTime? PushedAt { get; set; }
+    /// <summary>
+    /// A date and time when the repository was pushed
+    /// </summary>
+    [JsonConverter(typeof(GitHubDateTimeConverter))]
+    public DateTime? PushedAt { get; set; }
 	/// <summary>
 	/// The Releases URL
 	/// </summary>
@@ -396,10 +398,11 @@ public sealed class GitHubRepository
 	/// The Trees URL
 	/// </summary>
 	public string? TreesURL { get; set; }
-	/// <summary>
-	/// The date and time the repository was updated
-	/// </summary>
-	public DateTime? UpdatedAt { get; set; }
+    /// <summary>
+    /// The date and time the repository was updated
+    /// </summary>
+    [JsonConverter(typeof(GitHubDateTimeConverter))]
+    public DateTime? UpdatedAt { get; set; }
 	/// <summary>
 	/// The URL
 	/// </summary>
