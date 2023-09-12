@@ -1,5 +1,5 @@
 ﻿// *****************************************************************************
-// UnitTestEventReader.Event.Milestone.cs
+// UnitTestConverters.cs
 //
 // Author:
 //       Olavo Henrique Dias <olavodias@gmail.com>
@@ -25,48 +25,46 @@
 // THE SOFTWARE.
 // *****************************************************************************
 using System;
-using GitHubApps.Models;
-using GitHubApps.Models.Events;
+using Newtonsoft.Json;
 
 namespace GitHubApps.Testing;
 
 /// <summary>
-/// The Unit Testing Class - For the Milestone Event Only
+/// Test Data Converters
 /// </summary>
-public partial class UnitTestEventReader
+[TestClass]
+public sealed class UnitTestConverters
 {
-
-    #region Model Validation
-
     /// <summary>
-    /// Validates a <see cref="GitHubMilestone"/>
+    /// Tests the <see cref="GitHubDateTimeConverter"/> class
     /// </summary>
-    /// <param name="model"></param>
-    private void ValidateMilestone(GitHubMilestone model)
+    [TestMethod]
+    public void TestDateTimeConverter()
     {
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/milestones/1", model.URL);
-        Assert.AreEqual("https://github.com/githubuser/TestGitHubApps/milestone/1", model.HTMLURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/milestones/1/labels", model.LabelsURL);
-        Assert.AreEqual(9858372, model.ID);
-        Assert.AreEqual("MI_kwDOKNJSy84Alm1E", model.NodeID);
-        Assert.AreEqual(1, model.Number);
-        Assert.AreEqual("First Milestone", model.Title);
-        Assert.IsNull(model.Description);
+        var convertedData = JsonConvert.DeserializeObject<ConverterData>(TestHelper.GetFileData("ConverterData", "TemplateDateTime.json"));
 
-        Assert.IsNotNull(model.Creator);
-        ValidateDefaultAccount(model.Creator);
-
-        Assert.AreEqual(1, model.OpenIssues);
-        Assert.AreEqual(0, model.ClosedIssues);
-        Assert.AreEqual(GitHubMilestoneStates.Open, model.State);
-        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
-        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
-        Assert.IsNull(model.DueOn);
-        Assert.IsNull(model.ClosedAt);        
+        Assert.IsNotNull(convertedData);
+        Assert.AreEqual("String Field", convertedData.StringField);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), convertedData.DateTimeField);
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), convertedData.DateTimeFieldTZ);        
+        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), convertedData.DateTimeFieldNumeric);
     }
-
-    #endregion Model Validation
 
 }
 
 
+class ConverterData
+{
+
+    public string? StringField { get; set; }
+
+    [JsonConverter(typeof(GitHubDateTimeConverter))]
+    public DateTime? DateTimeField { get; set; }
+
+    [JsonConverter(typeof(GitHubDateTimeConverter))]
+    public DateTime? DateTimeFieldTZ { get; set; }
+
+    [JsonConverter(typeof(GitHubDateTimeConverter))]
+    public DateTime? DateTimeFieldNumeric { get; set; }
+
+}

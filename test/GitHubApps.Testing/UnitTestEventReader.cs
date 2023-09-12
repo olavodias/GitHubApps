@@ -38,8 +38,13 @@ namespace GitHubApps.Testing;
 /// This Unit Testing Class will test the reading of events
 /// </summary>
 [TestClass]
-public partial class UnitTestEventReader
+public sealed partial class UnitTestEventReader
 {
+    /// <summary>
+    /// The default DateTime variable to be used when validating dates
+    /// </summary>
+    private readonly DateTime DefaultDateTime = new(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
     /// <summary>
     /// Test the <see cref="GitHubEventCreate"/> class
     /// </summary>
@@ -68,9 +73,9 @@ public partial class UnitTestEventReader
         Assert.AreEqual(0, obj.Payload.Repository.Size);
         Assert.AreEqual(0, obj.Payload.Repository.ForksCount);
         Assert.AreEqual(0, obj.Payload.Repository.Forks);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), obj.Payload.Repository.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), obj.Payload.Repository.UpdatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), obj.Payload.Repository.PushedAt);
+        Assert.AreEqual(DefaultDateTime, obj.Payload.Repository.CreatedAt);
+        Assert.AreEqual(DefaultDateTime, obj.Payload.Repository.UpdatedAt);
+        Assert.AreEqual(DefaultDateTime, obj.Payload.Repository.PushedAt);
 
         // Validate Repository Owner
         Assert.IsNotNull(obj.Payload.Repository.Owner);
@@ -156,53 +161,6 @@ public partial class UnitTestEventReader
         // Validate Installation
         Assert.IsNotNull(obj.Payload.Installation);
         ValidateSimplifiedInstallation(obj.Payload.Installation);
-    }
-
-    /// <summary>
-    /// Test the <see cref="GitHubEventPush"/> class
-    /// </summary>
-    [TestMethod]
-    public void TestEventPush()
-    {
-        // Test File to Serialize
-        var obj = TestHelper.GetGitHubObject<GitHubEventPush>("Payload", "Push", "Push.json");
-
-        Assert.IsNotNull(obj);
-
-        // Validate Payload Properties
-        Assert.AreEqual(GitHubEvents.EVENT_PUSH, obj.Event);
-        Assert.IsNotNull(obj.Payload);
-
-        Assert.AreEqual("refs/heads/dev", obj.Payload.Ref);
-        Assert.AreEqual("0000000000000000000000000000000000000000", obj.Payload.Before);
-        Assert.AreEqual("41203e3015ea1e86240d781a0efd3c9aa671dfdf", obj.Payload.After);
-        Assert.IsTrue(obj.Payload.IsCreated);
-        Assert.IsFalse(obj.Payload.IsDeleted);
-        Assert.IsFalse(obj.Payload.IsForced);
-        Assert.AreEqual("refs/heads/main", obj.Payload.BaseRef);
-        Assert.AreEqual("https://github.com/githubuser/TestGitHubApps/compare/dev", obj.Payload.Compare);
-
-        Assert.IsNotNull(obj.Payload.Commits);
-        Assert.AreEqual(0, obj.Payload.Commits.Length);
-
-        // Validate Repository Object
-        Assert.IsNotNull(obj.Payload.Repository);
-        ValidateDefaultRepository(obj.Payload.Repository);
-
-        // Validate Pusher
-        Assert.IsNotNull(obj.Payload.Pusher);
-        ValidateDefaultAccountMetadataOnly(obj.Payload.Pusher);
-
-        // Validate Sender
-        Assert.IsNotNull(obj.Payload.Sender);
-        ValidateDefaultAccount(obj.Payload.Sender);
-
-        // Validate Installation
-        Assert.IsNotNull(obj.Payload.Installation);
-        ValidateSimplifiedInstallation(obj.Payload.Installation);
-
-        //TODO: Validate Head Commit
-        Assert.Fail();
     }
 
     #region Model Validation
@@ -352,8 +310,8 @@ public partial class UnitTestEventReader
         for (int i = 0; i < 58; i++)
             Assert.AreEqual(eventList[i], model.Events[i]);
 
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
+        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
+        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
 
         Assert.IsNull(model.SingleFileName);
         Assert.IsFalse(model.HasMultipleSingleFiles);
@@ -480,9 +438,9 @@ public partial class UnitTestEventReader
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/labels{/name}", model.LabelsURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/releases{/id}", model.ReleasesURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/deployments", model.DeploymentsURL);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.PushedAt);
+        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
+        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
+        Assert.AreEqual(DefaultDateTime, model.PushedAt);
         Assert.AreEqual("git://github.com/githubuser/TestGitHubApps.git", model.GitURL);
         Assert.AreEqual("git@github.com:githubuser/TestGitHubApps.git", model.SSH_URL);
         Assert.AreEqual("https://github.com/githubuser/TestGitHubApps.git", model.CloneURL);
@@ -586,9 +544,9 @@ public partial class UnitTestEventReader
         Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/labels{/name}", model.LabelsURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/releases{/id}", model.ReleasesURL);
         Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/deployments", model.DeploymentsURL);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.PushedAt);
+        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
+        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
+        Assert.AreEqual(DefaultDateTime, model.PushedAt);
         Assert.AreEqual("git://github.com/githubuser2/TestGitHubAppsForked.git", model.GitURL);
         Assert.AreEqual("git@github.com:githubuser2/TestGitHubAppsForked.git", model.SSH_URL);
         Assert.AreEqual("https://github.com/githubuser2/TestGitHubAppsForked.git", model.CloneURL);

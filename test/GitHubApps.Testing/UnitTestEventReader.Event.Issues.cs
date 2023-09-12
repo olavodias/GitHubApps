@@ -653,9 +653,9 @@ public partial class UnitTestEventReader
 
         Assert.AreEqual(1, model.Comments);
 
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.CreatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.UpdatedAt);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), model.ClosedAt);
+        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
+        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
+        Assert.AreEqual(DefaultDateTime, model.ClosedAt);
 
         Assert.AreEqual(GitHubAuthorAssociations.OWNER, model.AuthorAssociation);
 

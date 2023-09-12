@@ -131,7 +131,7 @@ public partial class UnitTestEventReader
         // Validate Suspended Information
         Assert.IsNotNull(obj.Payload.Installation.SuspendedBy);
         ValidateDefaultAccount(obj.Payload.Installation.SuspendedBy);
-        Assert.AreEqual(new DateTime(2023, 1, 1, 0, 0, 0), obj.Payload.Installation.SuspendedAt);
+        Assert.AreEqual(DefaultDateTime, obj.Payload.Installation.SuspendedAt);
 
         // Validate Sender
         Assert.IsNotNull(obj.Payload.Sender);
