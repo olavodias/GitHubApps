@@ -61,11 +61,11 @@
     <None Remove="Models\Events\PullRequestReview\" />
     <None Remove="Models\Events\PullRequestReviewThread\" />
     <None Remove="Models\Events\Push\" />
-    <None Remove="Models\Events\Release\" />
     <None Remove="Models\Events\Repository\" />
     <None Remove="Models\Events\Create\" />
     <None Remove="Models\Events\Fork\" />
     <None Remove="Models\Events\Delete\" />
+    <None Remove="Models\Events\Release\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
@@ -80,10 +80,10 @@
     <Folder Include="Models\Events\PullRequestReview\" />
     <Folder Include="Models\Events\PullRequestReviewThread\" />
     <Folder Include="Models\Events\Push\" />
-    <Folder Include="Models\Events\Release\" />
     <Folder Include="Models\Events\Repository\" />
     <Folder Include="Models\Events\Create\" />
     <Folder Include="Models\Events\Fork\" />
     <Folder Include="Models\Events\Delete\" />
+    <Folder Include="Models\Events\Release\" />
   </ItemGroup>
 </Project>
