@@ -38,10 +38,12 @@ public abstract class GitHubEvent<TGitHubPayload>: GitHubEvent
 
     //TODO: Implement Property Enterprise (Issue #32)
 
+    /*
     /// <summary>
 	/// An enterprise on GitHUb
 	/// </summary>
-    //public object? Enterprise { get; set; } 
+    public object? Enterprise { get; set; } 
+    */
 
     /// <summary>
     /// The GitHub App installation. This property is included when the event is configured for and sent to a GitHub App
