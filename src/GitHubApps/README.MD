@@ -20,9 +20,9 @@ This component exposes a `GitHubAppBase` class that must be extended to implemen
 
 ## Usage
 
-Add the nuget package [GitHubApps](https://www.nuget.org/packages/GitHubApps/) (https://www.nuget.org/packages/GitHubApps/) into your project. This package is compatible with `netstandard1.0`, `netstandard1.3`, `netstandard2.0`, `net45`, `net46`, `net461`, and `net6.0`. If your project target any framework higher than those, it will work fine.
+Add the nuget package [GitHubApps](https://www.nuget.org/packages/GitHubApps/) into your project. This package is compatible with `netstandard1.0`, `netstandard1.3`, `netstandard2.0`, `net45`, `net46`, `net461`, and `net6.0`. If your project target any framework higher than those, it will work fine.
 
-> If you are planning to implement a ASP.NET Core Web Application using this component, install the [GitHubApps.AspNetCore](https://www.nuget.org/packages/GitHubApps.AspNetCore/) (https://www.nuget.org/packages/GitHubApps.AspNetCore/) package instead. This package offers a MVC `Controller` that handles the `POST` request made by GitHub.
+> If you are planning to implement a ASP.NET Core Web Application using this component, install the [GitHubApps.AspNetCore](https://www.nuget.org/packages/GitHubApps.AspNetCore/) package instead. This package offers a MVC `Controller` that handles the `POST` request made by GitHub.
 
 ### Creating your own GitHub App
 
