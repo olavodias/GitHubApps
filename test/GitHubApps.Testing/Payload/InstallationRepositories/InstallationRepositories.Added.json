@@ -1,7 +1,7 @@
 ﻿{
   "event": "installation_repositories",
   "payload": {
-    "action": "removed",
+    "action": "added",
     "installation": {
       "id": 41249901,
       "account": {
@@ -83,8 +83,8 @@
         "organization_personal_access_token_requests": "write"
       },
       "events": [ "branch_protection_configuration", "branch_protection_rule", "check_run", "check_suite", "code_scanning_alert", "commit_comment", "create", "delete", "dependabot_alert", "deployment", "deployment_protection_rule", "deployment_review", "deployment_status", "deploy_key", "discussion", "discussion_comment", "fork", "gollum", "issues", "issue_comment", "label", "member", "membership", "merge_group", "merge_queue_entry", "milestone", "organization", "org_block", "page_build", "personal_access_token_request", "project", "projects_v2", "projects_v2_item", "project_card", "project_column", "public", "pull_request", "pull_request_review", "pull_request_review_comment", "pull_request_review_thread", "push", "registry_package", "release", "repository", "repository_advisory", "repository_dispatch", "repository_ruleset", "secret_scanning_alert", "secret_scanning_alert_location", "security_and_analysis", "star", "status", "team", "team_add", "watch", "workflow_dispatch", "workflow_job", "workflow_run" ],
-      "created_at": "2023-09-16T03:35:33.000Z",
-      "updated_at": "2023-09-16T03:35:54.000Z",
+      "created_at": "2023-09-15T21:35:33.000-06:00",
+      "updated_at": "2023-09-15T21:35:34.000-06:00",
       "single_file_name": null,
       "has_multiple_single_files": false,
       "single_file_paths": [],
@@ -92,8 +92,7 @@
       "suspended_at": null
     },
     "repository_selection": "all",
-    "repositories_added": [],
-    "repositories_removed": [
+    "repositories_added": [
       {
         "id": 692294519,
         "node_id": "R_kgDOKUOTdw",
@@ -102,6 +101,7 @@
         "private": true
       }
     ],
+    "repositories_removed": [],
     "requester": null,
     "sender": {
       "login": "githubuser",

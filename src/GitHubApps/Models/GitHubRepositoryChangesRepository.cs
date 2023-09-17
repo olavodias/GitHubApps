@@ -1,5 +1,5 @@
 ﻿// *****************************************************************************
-// GitHubRepositoryChanges.cs
+// GitHubRepositoryChangesRepository.cs
 //
 // Author:
 //       Olavo Henrique Dias <olavodias@gmail.com>
@@ -25,50 +25,27 @@
 // THE SOFTWARE.
 // *****************************************************************************
 using System;
-using Newtonsoft.Json;
-
 namespace GitHubApps.Models;
 
 /// <summary>
-/// Represents the changes on a <see cref="GitHubRepository"/>
+/// Represents Repository Changes for the Repository Event
 /// </summary>
-public sealed class GitHubRepositoryChanges
+public sealed class GitHubRepositoryChangesRepository
 {
 
     #region Properties
 
     /// <summary>
-    /// The previous default branch
+    /// The previous repository name
     /// </summary>
-    public GitHubChangesFrom<string>? DefaultBranch { get; set; }
-    /// <summary>
-    /// The previous description
-    /// </summary>
-    public GitHubChangesFrom<string>? Description { get; set; }
-    /// <summary>
-    /// The previous homepage
-    /// </summary>
-    public GitHubChangesFrom<string>? Homepage { get; set; }
-    /// <summary>
-    /// The previous owner
-    /// </summary>
-    /// <remarks>An owner can be a <see cref="GitHubAccount"/>, or a <see cref="GitHubOrganization"/></remarks>
-    public GitHubChangesFrom<GitHubChangesOwner>? Owner { get; set; }
-    /// <summary>
-    /// The repository changes
-    /// </summary>
-    public GitHubRepositoryChangesRepository? Repository { get; set; }
-    /// <summary>
-    /// THe previous topics
-    /// </summary>
-    public GitHubChangesFrom<string>? Topics { get; set; }
+    public GitHubChangesFrom<string>? Name { get; set; }
 
     #endregion Properties
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GitHubRepositoryChanges"/>
+    /// Initializes a new instance of the <see cref="GitHubRepositoryChangesRepository"/> class
     /// </summary>
-    public GitHubRepositoryChanges()
+    public GitHubRepositoryChangesRepository()
 	{
 	}
 }

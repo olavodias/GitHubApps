@@ -36,6 +36,7 @@
     <None Remove="Payload\Label\" />
     <None Remove="ConverterData\" />
     <None Remove="Payload\Release\" />
+    <None Remove="Payload\Public\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Payload\" />
@@ -58,6 +59,7 @@
     <Folder Include="Payload\Label\" />
     <Folder Include="ConverterData\" />
     <Folder Include="Payload\Release\" />
+    <Folder Include="Payload\Public\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\GitHubApps\GitHubApps.csproj" />
@@ -267,6 +269,35 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Payload\Release\Release.Released.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
+    <!-- Repository Event -->
+    <None Update="Payload\Repository\Repository.Archived.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Repository\Repository.Created.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Repository\Repository.Deleted.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Repository\Repository.Edited.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Repository\Repository.Privatized.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Repository\Repository.Publicized.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Repository\Repository.Renamed.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Repository\Repository.Transferred.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Payload\Repository\Repository.Unarchived.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
 

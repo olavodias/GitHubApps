@@ -1,5 +1,5 @@
 ﻿// *****************************************************************************
-// GitHubRepositoryChanges.cs
+// GitHubChangesOwner.cs
 //
 // Author:
 //       Olavo Henrique Dias <olavodias@gmail.com>
@@ -25,50 +25,32 @@
 // THE SOFTWARE.
 // *****************************************************************************
 using System;
-using Newtonsoft.Json;
-
 namespace GitHubApps.Models;
 
 /// <summary>
-/// Represents the changes on a <see cref="GitHubRepository"/>
+/// Represents the owner changes in a repository
 /// </summary>
-public sealed class GitHubRepositoryChanges
+public sealed class GitHubChangesOwner
 {
 
     #region Properties
 
     /// <summary>
-    /// The previous default branch
+    /// The organization that used to own the repository
     /// </summary>
-    public GitHubChangesFrom<string>? DefaultBranch { get; set; }
+    public GitHubOrganization? Organization { get; set; }
+
     /// <summary>
-    /// The previous description
+    /// The user that used to own the repository
     /// </summary>
-    public GitHubChangesFrom<string>? Description { get; set; }
-    /// <summary>
-    /// The previous homepage
-    /// </summary>
-    public GitHubChangesFrom<string>? Homepage { get; set; }
-    /// <summary>
-    /// The previous owner
-    /// </summary>
-    /// <remarks>An owner can be a <see cref="GitHubAccount"/>, or a <see cref="GitHubOrganization"/></remarks>
-    public GitHubChangesFrom<GitHubChangesOwner>? Owner { get; set; }
-    /// <summary>
-    /// The repository changes
-    /// </summary>
-    public GitHubRepositoryChangesRepository? Repository { get; set; }
-    /// <summary>
-    /// THe previous topics
-    /// </summary>
-    public GitHubChangesFrom<string>? Topics { get; set; }
+    public GitHubAccount? User { get; set; }
 
     #endregion Properties
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GitHubRepositoryChanges"/>
+    /// Initializes a new instance of the <see cref="GitHubChangesOwner"/> class
     /// </summary>
-    public GitHubRepositoryChanges()
+    public GitHubChangesOwner()
 	{
 	}
 }
