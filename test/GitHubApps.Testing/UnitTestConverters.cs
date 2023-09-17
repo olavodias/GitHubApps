@@ -25,6 +25,7 @@
 // THE SOFTWARE.
 // *****************************************************************************
 using System;
+using GitHubApps.Models;
 using Newtonsoft.Json;
 
 namespace GitHubApps.Testing;
@@ -41,7 +42,7 @@ public sealed class UnitTestConverters
     [TestMethod]
     public void TestDateTimeConverter()
     {
-        var convertedData = JsonConvert.DeserializeObject<ConverterData>(TestHelper.GetFileData("ConverterData", "TemplateDateTime.json"));
+        var convertedData = JsonConvert.DeserializeObject<DateTimeConverterData>(TestHelper.GetFileData("ConverterData", "TemplateDateTime.json"));
 
         Assert.IsNotNull(convertedData);
         Assert.AreEqual("String Field", convertedData.StringField);
@@ -53,7 +54,7 @@ public sealed class UnitTestConverters
 }
 
 
-class ConverterData
+class DateTimeConverterData
 {
 
     public string? StringField { get; set; }

@@ -25,7 +25,6 @@
 // THE SOFTWARE.
 // *****************************************************************************
 
-#pragma warning disable CS0618 // Type or member is obsolete
 #pragma warning disable CA1822 // Mark members as static
 
 using System.Runtime.CompilerServices;
@@ -166,19 +165,6 @@ public sealed partial class UnitTestEventReader
     #region Model Validation
 
     /// <summary>
-    /// Validates a <see cref="GitHubRepository"/> with simplified properties
-    /// </summary>
-    /// <param name="model">A <see cref="GitHubRepository"/> to be validated</param>
-    private void ValidateSimplifiedRepository(GitHubRepository model)
-    {
-        Assert.AreEqual(684890442, model.ID);
-        Assert.AreEqual("R_kgDOKNKZSg", model.NodeID);
-        Assert.AreEqual("TestGitHubApp", model.Name);
-        Assert.AreEqual("githuborg/TestGitHubApp", model.FullName);
-        Assert.IsTrue(model.IsPrivate);
-    }
-
-    /// <summary>
     /// Validates a <see cref="GitHubAccount"/>
     /// </summary>
     /// <param name="model">A <see cref="GitHubAccount"/> to be validated</param>
@@ -244,7 +230,7 @@ public sealed partial class UnitTestEventReader
     /// Validates a <see cref="GitHubAccount"/>
     /// </summary>
     /// <param name="model">A <see cref="GitHubAccount"/> to be validated</param>
-    private void ValidateDefaultOrganizationAccount(GitHubAccount model)
+    private void ValidateOrganizationAccount(GitHubAccount model)
     {
         Assert.AreEqual("githuborg", model.Login);
         Assert.AreEqual(24394891, model.ID);
@@ -289,7 +275,7 @@ public sealed partial class UnitTestEventReader
         Assert.AreEqual(41251547, model.ID);
 
         Assert.IsNotNull(model.Account);
-        ValidateDefaultOrganizationAccount(model.Account);
+        ValidateOrganizationAccount(model.Account);
 
         Assert.AreEqual("https://api.github.com/app/installations/41251547/access_tokens", model.AccessTokensURL);
         Assert.AreEqual("https://api.github.com/installation/repositories", model.RepositoriesURL);
@@ -385,204 +371,8 @@ public sealed partial class UnitTestEventReader
         Assert.AreEqual("MDIzOkludGVncmF0aW9uSW5zdGFsbGF0aW9uNDEyNDk5MDE=", model.NodeID);
     }
 
-
-    /// <summary>
-    /// Validates a <see cref="GitHubRepository"/>
-    /// </summary>
-    /// <param name="model">The <see cref="GitHubRepository"/> to be validated</param>
-    /// <param name="memberName">The name of the method calling the function</param>
-    private void ValidateDefaultRepository(GitHubRepository model, [CallerMemberName] string memberName = "")
-    {
-        Assert.AreEqual(684872395, model.ID);
-        Assert.AreEqual("R_kgDOKNJSyw", model.NodeID);
-        Assert.AreEqual("TestGitHubApps", model.Name);
-        Assert.AreEqual("githubuser/TestGitHubApps", model.FullName);
-        Assert.IsTrue(model.IsPrivate);
-        Assert.AreEqual("https://github.com/githubuser/TestGitHubApps", model.HTMLURL);
-        Assert.AreEqual("Test GitHub Apps", model.Description);
-        Assert.IsFalse(model.IsFork);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps", model.URL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/forks", model.ForksURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/keys{/key_id}", model.KeysURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/collaborators{/collaborator}", model.CollaboratorsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/teams", model.TeamsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/hooks", model.HooksURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/issues/events{/number}", model.IssueEventsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/events", model.EventsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/assignees{/user}", model.AssigneesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/branches{/branch}", model.BranchesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/tags", model.TagsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/git/blobs{/sha}", model.BlobsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/git/tags{/sha}", model.GitTagsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/git/refs{/sha}", model.GitRefsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/git/trees{/sha}", model.TreesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/statuses/{sha}", model.StatusesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/languages", model.LanguagesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/stargazers", model.StargazersURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/contributors", model.ContributorsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/subscribers", model.SubscribersURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/subscription", model.SubscriptionURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/commits{/sha}", model.CommitsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/git/commits{/sha}", model.GitCommitsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/comments{/number}", model.CommentsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/issues/comments{/number}", model.IssueCommentURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/contents/{+path}", model.ContentsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/compare/{base}...{head}", model.CompareURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/merges", model.MergesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/{archive_format}{/ref}", model.ArchiveURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/downloads", model.DownloadsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/issues{/number}", model.IssuesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/pulls{/number}", model.PullsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/milestones{/number}", model.MilestonesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/notifications{?since,all,participating}", model.NotificationsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/labels{/name}", model.LabelsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/releases{/id}", model.ReleasesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser/TestGitHubApps/deployments", model.DeploymentsURL);
-        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
-        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
-        Assert.AreEqual(DefaultDateTime, model.PushedAt);
-        Assert.AreEqual("git://github.com/githubuser/TestGitHubApps.git", model.GitURL);
-        Assert.AreEqual("git@github.com:githubuser/TestGitHubApps.git", model.SSH_URL);
-        Assert.AreEqual("https://github.com/githubuser/TestGitHubApps.git", model.CloneURL);
-        Assert.AreEqual("https://github.com/githubuser/TestGitHubApps", model.SVN_URL);
-        Assert.IsNull(model.Homepage);
-        Assert.AreEqual(0, model.Size);
-        Assert.AreEqual(0, model.StargazersCount);
-        Assert.AreEqual(0, model.WatchersCount);
-        Assert.IsNull(model.Language);
-        Assert.IsTrue(model.HasIssues);
-        Assert.IsTrue(model.HasProjects);
-        Assert.IsTrue(model.HasDownloads);
-        Assert.IsFalse(model.HasWiki);
-        Assert.IsFalse(model.HasPages);
-        Assert.IsFalse(model.HasDiscussions);
-        Assert.AreEqual(0, model.ForksCount);
-        Assert.IsNull(model.MirrorURL);
-        Assert.IsFalse(model.IsArchived);
-        Assert.IsFalse(model.IsDisabled);
-        Assert.AreEqual(0, model.OpenIssuesCount);
-        Assert.IsNull(model.License);
-        Assert.IsTrue(model.AllowForking);
-        Assert.IsFalse(model.IsTemplate);
-        Assert.IsFalse(model.IsWebCommitSignoffRequired);
-        Assert.IsNotNull(model.Topics);
-        Assert.AreEqual(0, model.Topics.Length);
-        Assert.AreEqual(GitHubRepositoryVisibility.Private, model.Visibility);
-        Assert.AreEqual(0, model.Forks);
-        Assert.AreEqual(0, model.OpenIssues);
-        Assert.AreEqual(0, model.Watchers);
-        Assert.AreEqual("main", model.DefaultBranch);
-
-        switch (memberName)
-        {
-            case nameof(ValidatePullRequestBaseDev):
-            case nameof(ValidatePullRequestBaseMain):
-                Assert.IsTrue(model.AllowSquashMerge);
-                Assert.IsTrue(model.AllowMergeCommit);
-                Assert.IsTrue(model.AllowRebaseMerge);
-                Assert.IsFalse(model.AllowAutoMerge);
-                Assert.IsFalse(model.DeleteBranchOnMerge);
-                Assert.IsFalse(model.AllowUpdateBranch);
-                Assert.IsFalse(model.UseSquashPrTitleAsDefault);
-                Assert.AreEqual(GitHubRepositorySquashMergeCommitMessage.COMMIT_MESSAGES, model.SquashMergeCommitMessage);
-                Assert.AreEqual(GitHubRepositorySquashMergeCommitTitles.COMMIT_OR_PR_TITLE, model.SquashMergeCommitTitle);
-                Assert.AreEqual(GitHubRepositoryMergeCommitMessages.PR_TITLE, model.MergeCommitMessage);
-                Assert.AreEqual(GitHubRepositoryMergeCommitTitles.MERGE_MESSAGE, model.MergeCommitTitle);
-                break;
-        }
-
-    }
-
-    /// <summary>
-    /// Validates a <see cref="GitHubRepository"/> for a Forkee in <see cref="GitHubEventFork"/>
-    /// </summary>
-    /// <param name="model">The model to be validated</param>
-    private void ValidateForkeeRepository(GitHubRepository model)
-    {
-        Assert.AreEqual(686406589, model.ID);
-        Assert.AreEqual("R_kgDOKOm7vQ", model.NodeID);
-        Assert.AreEqual("TestGitHubAppsForked", model.Name);
-        Assert.AreEqual("githubuser2/TestGitHubAppsForked", model.FullName);
-        Assert.IsTrue(model.IsPrivate);
-        Assert.AreEqual("https://github.com/githubuser2/TestGitHubAppsForked", model.HTMLURL);
-        Assert.AreEqual("Test GitHub Apps Forked", model.Description);
-        Assert.IsTrue(model.IsFork);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked", model.URL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/forks", model.ForksURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/keys{/key_id}", model.KeysURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/collaborators{/collaborator}", model.CollaboratorsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/teams", model.TeamsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/hooks", model.HooksURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/issues/events{/number}", model.IssueEventsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/events", model.EventsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/assignees{/user}", model.AssigneesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/branches{/branch}", model.BranchesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/tags", model.TagsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/git/blobs{/sha}", model.BlobsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/git/tags{/sha}", model.GitTagsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/git/refs{/sha}", model.GitRefsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/git/trees{/sha}", model.TreesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/statuses/{sha}", model.StatusesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/languages", model.LanguagesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/stargazers", model.StargazersURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/contributors", model.ContributorsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/subscribers", model.SubscribersURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/subscription", model.SubscriptionURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/commits{/sha}", model.CommitsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/git/commits{/sha}", model.GitCommitsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/comments{/number}", model.CommentsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/issues/comments{/number}", model.IssueCommentURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/contents/{+path}", model.ContentsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/compare/{base}...{head}", model.CompareURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/merges", model.MergesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/{archive_format}{/ref}", model.ArchiveURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/downloads", model.DownloadsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/issues{/number}", model.IssuesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/pulls{/number}", model.PullsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/milestones{/number}", model.MilestonesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/notifications{?since,all,participating}", model.NotificationsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/labels{/name}", model.LabelsURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/releases{/id}", model.ReleasesURL);
-        Assert.AreEqual("https://api.github.com/repos/githubuser2/TestGitHubAppsForked/deployments", model.DeploymentsURL);
-        Assert.AreEqual(DefaultDateTime, model.CreatedAt);
-        Assert.AreEqual(DefaultDateTime, model.UpdatedAt);
-        Assert.AreEqual(DefaultDateTime, model.PushedAt);
-        Assert.AreEqual("git://github.com/githubuser2/TestGitHubAppsForked.git", model.GitURL);
-        Assert.AreEqual("git@github.com:githubuser2/TestGitHubAppsForked.git", model.SSH_URL);
-        Assert.AreEqual("https://github.com/githubuser2/TestGitHubAppsForked.git", model.CloneURL);
-        Assert.AreEqual("https://github.com/githubuser2/TestGitHubAppsForked", model.SVN_URL);
-        Assert.IsNull(model.Homepage);
-        Assert.AreEqual(2, model.Size);
-        Assert.AreEqual(0, model.StargazersCount);
-        Assert.AreEqual(0, model.WatchersCount);
-        Assert.IsNull(model.Language);
-        Assert.IsFalse(model.HasIssues);
-        Assert.IsTrue(model.HasProjects);
-        Assert.IsTrue(model.HasDownloads);
-        Assert.IsFalse(model.HasWiki);
-        Assert.IsFalse(model.HasPages);
-        Assert.IsFalse(model.HasDiscussions);
-        Assert.AreEqual(0, model.ForksCount);
-        Assert.IsNull(model.MirrorURL);
-        Assert.IsFalse(model.IsArchived);
-        Assert.IsFalse(model.IsDisabled);
-        Assert.AreEqual(0, model.OpenIssuesCount);
-        Assert.IsNull(model.License);
-        Assert.IsFalse(model.AllowForking);
-        Assert.IsFalse(model.IsTemplate);
-        Assert.IsFalse(model.IsWebCommitSignoffRequired);
-        Assert.IsNotNull(model.Topics);
-        Assert.AreEqual(0, model.Topics.Length);
-        Assert.AreEqual(GitHubRepositoryVisibility.Private, model.Visibility);
-        Assert.AreEqual(0, model.Forks);
-        Assert.AreEqual(0, model.OpenIssues);
-        Assert.AreEqual(0, model.Watchers);
-        Assert.AreEqual("main", model.DefaultBranch);
-    }
-
     #endregion Model Validation
 
 }
 
 #pragma warning restore CA1822 // Mark members as static
-#pragma warning restore CS0618 // Type or member is obsolete

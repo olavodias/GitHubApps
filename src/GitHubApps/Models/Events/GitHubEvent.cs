@@ -36,10 +36,12 @@ public abstract class GitHubEvent<TGitHubPayload>: GitHubEvent
 
     #region Properties
 
+    //TODO: Implement Property Enterprise (Issue #32)
+
     /// <summary>
 	/// An enterprise on GitHUb
 	/// </summary>
-    public object? Enterprise { get; set; } //TODO: Implement Property Enterprise
+    //public object? Enterprise { get; set; } 
 
     /// <summary>
     /// The GitHub App installation. This property is included when the event is configured for and sent to a GitHub App
@@ -49,7 +51,7 @@ public abstract class GitHubEvent<TGitHubPayload>: GitHubEvent
     /// <summary>
 	/// A GitHub organization
 	/// </summary>
-    public object? Organization { get; set; } //TODO: Implement Property Organization
+    public GitHubOrganization? Organization { get; set; }
 
     /// <summary>
     /// A repository on GitHub

@@ -1,5 +1,5 @@
 ﻿// *****************************************************************************
-// GitHubRepositoryChanges.cs
+// GitHubOrganization.cs
 //
 // Author:
 //       Olavo Henrique Dias <olavodias@gmail.com>
@@ -25,51 +25,71 @@
 // THE SOFTWARE.
 // *****************************************************************************
 using System;
-using Newtonsoft.Json;
-
 namespace GitHubApps.Models;
 
 /// <summary>
-/// Represents the changes on a <see cref="GitHubRepository"/>
+/// Represents a GitHub Organization
 /// </summary>
-public sealed class GitHubRepositoryChanges
+public sealed class GitHubOrganization
 {
 
     #region Properties
 
     /// <summary>
-    /// The previous default branch
+    /// The Avatar URL
     /// </summary>
-    public GitHubChangesFrom<string>? DefaultBranch { get; set; }
+    public string? AvatarURL { get; set; }
     /// <summary>
-    /// The previous description
+    /// The Organization Description
     /// </summary>
-    public GitHubChangesFrom<string>? Description { get; set; }
+    public string? Description { get; set; }
     /// <summary>
-    /// The previous homepage
+    /// The Organization Events URL
     /// </summary>
-    public GitHubChangesFrom<string>? Homepage { get; set; }
+    public string? EventsURL { get; set; }
     /// <summary>
-    /// The previous owner
+    /// The Organization Hooks URL
     /// </summary>
-    /// <remarks>An owner can be a <see cref="GitHubAccount"/>, or a <see cref="GitHubOrganization"/></remarks>
-    public GitHubChangesFrom<GitHubChangesOwner>? Owner { get; set; }
+    public string? HooksURL { get; set; }
     /// <summary>
-    /// The repository changes
+    /// The Organization ID
     /// </summary>
-    public GitHubRepositoryChangesRepository? Repository { get; set; }
+    public long ID { get; set; }
     /// <summary>
-    /// THe previous topics
+    /// The Organization Issues URL
     /// </summary>
-    public GitHubChangesFrom<string>? Topics { get; set; }
+    public string? IssuesURL { get; set; }
+    /// <summary>
+    /// The Organization login
+    /// </summary>
+    public string? Login { get; set; }
+    /// <summary>
+    /// The Organization Members URL
+    /// </summary>
+    public string? MembersURL { get; set; }
+    /// <include file="documentation_shared.xml" path="Documentation/RepetitiveProperties/RepetitiveProperty[@name=NodeID]"/>
+    public string? NodeID { get; set; }
+    /// <summary>
+    /// The Public Members URL
+    /// </summary>
+    public string? PublicMembersURL { get; set; }
+    /// <summary>
+    /// The Organization Repositories URL
+    /// </summary>
+    public string? ReposURL { get; set; }
+    /// <summary>
+    /// The Organization URL
+    /// </summary>
+    public string? URL { get; set; }
 
     #endregion Properties
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="GitHubRepositoryChanges"/>
+    /// Initializes a new instance of the <see cref="GitHubOrganization"/> class
     /// </summary>
-    public GitHubRepositoryChanges()
+    public GitHubOrganization()
 	{
+
 	}
 }
 
