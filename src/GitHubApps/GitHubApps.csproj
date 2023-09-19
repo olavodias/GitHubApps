@@ -1,0 +1,89 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.0;netstandard1.3;netstandard2.0;net45;net46;net461;net6.0</TargetFrameworks>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <LangVersion>10.0</LangVersion>
+
+    <!-- Nuget Package Info -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.0</Version>
+    <Authors>Olavo Henrique Dias</Authors>
+    <Company>Olavo Henrique Dias</Company>
+    <Product>GitHubApps</Product>
+    <Description>A framework to facilitate the creation of GitHub Apps using .NET</Description>
+    <Summary>A framework to facilitate the creation of GitHub Apps using .NET</Summary>
+    <Copyright>Copyright © Olavo Henrique Dias 2023</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Title>GitHubApps.NET</Title>
+    <PackageId>GitHubApps</PackageId>
+    <PackageTags>GitHub Apps .NET Git Hub Dot Net</PackageTags>    
+    <PackageReadmeFile>README.MD</PackageReadmeFile>
+    <PackageIcon>packageIcon.png</PackageIcon>
+    <PackageProjectUrl>https://github.com/olavodias/GitHubApps</PackageProjectUrl>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <RootNamespace>GitHubApps</RootNamespace>
+    <AssemblyName>GitHubApps</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup> 
+
+  <ItemGroup>
+      <None Include="packageIcon.png" Pack="true" PackagePath="\" />
+      <None Include="README.MD" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\net6.0\GitHubApps.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\net6.0\GitHubApps.xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Models\" />
+    <None Remove="Models\Events\" />
+    <None Remove="Models\Events\Installation\" />
+    <None Remove="Models\Events\Issues\" />
+    <None Remove="Exceptions\" />
+    <None Remove="Models\Events\IssueComment\" />
+    <None Remove="Models\Events\Label\" />
+    <None Remove="Models\Events\PullRequest\" />
+    <None Remove="Models\Events\PullRequestReviewComment\" />
+    <None Remove="Models\Events\PullRequestReview\" />
+    <None Remove="Models\Events\PullRequestReviewThread\" />
+    <None Remove="Models\Events\Push\" />
+    <None Remove="Models\Events\Repository\" />
+    <None Remove="Models\Events\Create\" />
+    <None Remove="Models\Events\Fork\" />
+    <None Remove="Models\Events\Delete\" />
+    <None Remove="Models\Events\Release\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="Models\Events\" />
+    <Folder Include="Models\Events\Installation\" />
+    <Folder Include="Models\Events\Issues\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Models\Events\IssueComment\" />
+    <Folder Include="Models\Events\Label\" />
+    <Folder Include="Models\Events\PullRequest\" />
+    <Folder Include="Models\Events\PullRequestReviewComment\" />
+    <Folder Include="Models\Events\PullRequestReview\" />
+    <Folder Include="Models\Events\PullRequestReviewThread\" />
+    <Folder Include="Models\Events\Push\" />
+    <Folder Include="Models\Events\Repository\" />
+    <Folder Include="Models\Events\Create\" />
+    <Folder Include="Models\Events\Fork\" />
+    <Folder Include="Models\Events\Delete\" />
+    <Folder Include="Models\Events\Release\" />
+  </ItemGroup>
+</Project>

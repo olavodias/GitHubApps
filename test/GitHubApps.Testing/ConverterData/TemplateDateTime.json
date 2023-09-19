@@ -1,0 +1,7 @@
+﻿{
+  "StringField": "String Field",
+  "DateTimeField": "2023-01-01T00:00:00Z",
+  "DateTimeFieldTZ": "2023-01-01T06:00:00-0100",
+  "DateTimeFieldNumeric": 1672531200
+}
+
