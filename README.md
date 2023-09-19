@@ -11,6 +11,8 @@ A GitHub App is a service that receives a post request from GitHub when certain 
 
 This component exposes a `GitHubAppBase` class that must be extended to implement your own Git Hub App.
 
+Refer to the [API Documentation](https://olavodias.github.io/GitHubApps) to have a better understanding of each class and how to use it.
+
 ## In this repository
 
 * [Usage](#usage)
@@ -26,14 +28,14 @@ Add the nuget package [GitHubApps](https://www.nuget.org/packages/GitHubApps/) i
 
 ### Creating your own GitHub App
 
-In order to create your own GitHub App, extend from the `GitHubAppBase` class.
+In order to create your own GitHub App, create a class and extend from the `GitHubAppBase` class.
 
 ```cs
 using GitHubApps;
 
 public class MyGitHubApp: GitHubAppBase
 {
-	//TODO: Override the virtual methods for each event
+   //TODO: Override the virtual methods for each event
 }
 ```
 
@@ -44,10 +46,10 @@ using GitHubApps;
 
 public class MyGitHubApp: GitHubAppBase
 {
-	public override EventResult OnEventInstallationCreated(GitHubDelivery<GitHubEventInstallation> payload)
-	{
-	    // Your code goes here...
-	}
+   public override EventResult OnEventInstallationCreated(GitHubDelivery<GitHubEventInstallation> payload)
+   {
+      // Your code goes here...
+   }
 }
 ```
 
@@ -90,8 +92,4 @@ This section contains links that are relevant to this repository.
 | [GitHub Webhook Events and Payloads](https://docs.github.com/en/webhooks/webhook-events-and-payloads) | The specification of webhooks events and payloads |
 | [Project Roadmap](https://github.com/users/olavodias/projects/2/views/2) | The project roadmap and expected delivery dates |
 | [Project Board](https://github.com/users/olavodias/projects/2/views/1) | The project board containing the tasks and its status |
-
-
-
-
-
+| [API Documentation](https://olavodias.github.io/GitHubApps) | The API Documentation |
