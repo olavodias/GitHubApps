@@ -65,14 +65,16 @@
     <ProjectReference Include="..\..\src\GitHubApps\GitHubApps.csproj" />
   </ItemGroup>
   <ItemGroup>
+
+    <!-- Check Suite Event -->
     <None Update="Payload\CheckSuite\CheckSuite.Requested.01.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Payload\CheckSuite\CheckSuite.Requested.02.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Payload\CheckSuite\CheckSuite.Requested.03.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
 
     <!-- Create Event -->
@@ -109,7 +111,7 @@
 
     <!-- Installation Repositories Event -->
     <None Update="Payload\InstallationRepositories\InstallationRepositories.Removed.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
 
     <!-- Issue Comment Event -->
@@ -175,10 +177,10 @@
 
     <!-- Milestone Event -->
     <None Update="Payload\Milestone\Milestone.Created.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Payload\Milestone\Milestone.Deleted.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
 
     <!-- Label Event -->
@@ -238,7 +240,7 @@
 
     <!-- Ping Event -->
     <None Update="Payload\Ping\Ping.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
 
     <!-- Push Event -->
@@ -246,10 +248,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Payload\Push\Push.02.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Payload\Push\Push.03.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
 
     <!-- Release Event -->
@@ -303,15 +305,15 @@
 
     <!-- Star Event -->
     <None Update="Payload\Star\Star.Created.01.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="Payload\Star\Star.Deleted.01.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
 
     <!-- Watch Event -->
     <None Update="Payload\Watch\Watch.Started.01.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
 
     <!-- Converter Data -->

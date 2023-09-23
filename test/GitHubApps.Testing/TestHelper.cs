@@ -29,6 +29,7 @@ using System.Diagnostics;
 using System.Text;
 using GitHubApps.Models;
 using GitHubApps.Models.Events;
+using Newtonsoft.Json.Linq;
 
 namespace GitHubApps.Testing;
 
@@ -53,14 +54,16 @@ public static class TestHelper
     /// </summary>
     /// <typeparam name="TGitHubObject">The type of the GitHub Object</typeparam>
     /// <param name="args">The path where the example file is located</param>
-    /// <returns>A <see cref="GitHubEvent{TMainClass}"/> of type <typeparamref name="TGitHubObject"/> or null if not found</returns>
+    /// <returns>A <see cref="GitHubDelivery{TGitHubObject}"/> of type <typeparamref name="TGitHubObject"/> or null if not found</returns>
     public static GitHubDelivery<TGitHubObject>? GetGitHubObject<TGitHubObject>(params string[] args)
         where TGitHubObject: GitHubEvent
     {
         try
         {
             var contents = GetFileData(args) ?? throw new InvalidDataException("Unable to load data from file");
-            return GitHubDelivery<TGitHubObject>.ConvertFromJSON(contents);           
+            var delivery = GitHubDelivery<TGitHubObject>.ConvertFromJSON(contents);            
+
+            return delivery;
         }
         catch (Exception ex)
         {
@@ -69,6 +72,27 @@ public static class TestHelper
         }        
     }
 
+    public static ParsedFileData? GetPayloadFromFile(params string[] args)
+    {
+
+        var serializedObject = (JObject?)Newtonsoft.Json.JsonConvert.DeserializeObject(GetFileData(args));
+
+        if (serializedObject is null) return null;
+
+        var parsedFileData = new ParsedFileData();
+
+        // First node is the event
+        if (serializedObject.First is JProperty jpFirst)
+            parsedFileData.Event = jpFirst.Value.ToString();
+
+        // Second node is the payload
+        //if (serializedObject.Last?.First is JProperty jpLast)
+        //    parsedFileData.Payload = jpLast.ToString();
+        parsedFileData.Payload = serializedObject.Last?.First?.ToString();
+
+        return parsedFileData;
+    }
+    
     /// <summary>
     /// Dump the exception into a formatted text
     /// </summary>
@@ -121,3 +145,8 @@ public static class TestHelper
     }
 }
 
+public struct ParsedFileData
+{
+    public string? Event;
+    public string? Payload;
+}

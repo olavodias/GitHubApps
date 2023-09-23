@@ -32,18 +32,22 @@ using GitHubApps.Exceptions;
 using GitHubApps.Models;
 using GitHubApps.Models.Events;
 
+#if HAS_LOGGER
+using Microsoft.Extensions.Logging;
+#endif
+
 namespace GitHubApps;
 
 /// <summary>
 /// Represents the Base Class for the GitHub Apps Implementation
 /// </summary>
 /// <remarks>Inherit from this class to create your own GitHub App</remarks>
-public abstract class GitHubAppBase : IGitHubApp,
+public abstract partial class GitHubAppBase : IGitHubApp,
     IGitHubEventInstallation, IGitHubEventIssues, IGitHubEventIssueComment, IGitHubEventLabel,
     IGitHubEventPullRequest, IGitHubEventPullRequestReviewComment, IGitHubEventPullRequestReview, IGitHubEventPullRequestReviewThread,
     IGitHubEventRelease, IGitHubEventRepository
 {
-
+    
     /// <summary>
     /// Initializes a new instance of the <see cref="GitHubAppBase"/> class
     /// </summary>
@@ -51,7 +55,6 @@ public abstract class GitHubAppBase : IGitHubApp,
 	{
         
 	}
-
 
     #region Internal Methods
 
@@ -64,20 +67,50 @@ public abstract class GitHubAppBase : IGitHubApp,
         // Process Request Headers
         foreach (var requestHeader in headers)
         {
-            var requestKeyLowerCase = requestHeader.Key.ToLower();
+            try
+            {
+                var headerKey = requestHeader.Key.ToLower();
+                var headerValue = requestHeader.Value;
 
-            if (requestKeyLowerCase == GitHubHeaders.HEADERS_GITHUB_EVENT)
-                payloadHeaders.Event = requestKeyLowerCase;
-            else if (requestKeyLowerCase == GitHubHeaders.HEADERS_GITHUB_DELIVERY)
-                payloadHeaders.Delivery = requestKeyLowerCase;
-            else if (requestKeyLowerCase == GitHubHeaders.HEADERS_HUB_SIGNATURE)
-                payloadHeaders.HubSignature = requestKeyLowerCase;
-            else if (requestKeyLowerCase == GitHubHeaders.HEADERS_HUB_SIGNATURE_256)
-                payloadHeaders.HubSignature256 = requestKeyLowerCase;
-            else if (requestKeyLowerCase == GitHubHeaders.HEADERS_GITHUB_HOOK_INSTALLATION_TARGET_ID)
-                payloadHeaders.HookInstallationTargetID = long.Parse(requestKeyLowerCase);
-            else if (requestKeyLowerCase == GitHubHeaders.HEADERS_GITHUB_HOOK_INSTALLATION_TARGET_TYPE)
-                payloadHeaders.HookInstallationTargetType = requestKeyLowerCase;
+                switch (headerKey)
+                {
+                    case GitHubHeaders.HEADERS_GITHUB_EVENT:
+                        payloadHeaders.Event = headerValue;
+                        break;
+
+                    case GitHubHeaders.HEADERS_GITHUB_DELIVERY:
+                        payloadHeaders.Delivery = headerValue;
+                        break;
+
+                    case GitHubHeaders.HEADERS_HUB_SIGNATURE:
+                        payloadHeaders.HubSignature = headerValue;
+                        break;
+
+                    case GitHubHeaders.HEADERS_HUB_SIGNATURE_256:
+                        payloadHeaders.HubSignature256 = headerValue;
+                        break;
+
+                    case GitHubHeaders.HEADERS_GITHUB_HOOK_INSTALLATION_TARGET_ID:
+                        payloadHeaders.HookInstallationTargetID = long.Parse(headerValue);
+                        break;
+
+                    case GitHubHeaders.HEADERS_GITHUB_HOOK_INSTALLATION_TARGET_TYPE:
+                        payloadHeaders.HookInstallationTargetType = headerValue;
+                        break;
+                }
+
+            }
+#if HAS_LOGGER
+            catch (Exception ex)
+            {
+                Logger?.LogError(ex, ex.Message);
+            }
+#else
+            catch
+            {
+                
+            }
+#endif
         }
 
         return await ProcessRequest(payloadHeaders, body);
@@ -219,7 +252,7 @@ public abstract class GitHubAppBase : IGitHubApp,
     /// </summary>
     /// <remarks>This method should be overwritten. Async is allowed.</remarks>
     /// <returns>A <see cref="EventResult"/>containing the results of the event that was not handled</returns>
-    protected virtual EventResult OnEventUnhandled()
+    public virtual EventResult OnEventUnhandled()
     {
         return EventResult.SuccessEventResult;
     }
@@ -229,7 +262,7 @@ public abstract class GitHubAppBase : IGitHubApp,
     /// </summary>
     /// <remarks>This method should be overwritten. Async is allowed.</remarks>
     /// <returns>A <see cref="EventResult"/>containing the results of the event/action that was not handled</returns>
-    protected virtual EventResult OnEventActionUnhandled()
+    public virtual EventResult OnEventActionUnhandled()
     {
         return EventResult.SuccessEventResult;
     }
