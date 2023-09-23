@@ -252,7 +252,7 @@ public abstract partial class GitHubAppBase : IGitHubApp,
     /// </summary>
     /// <remarks>This method should be overwritten. Async is allowed.</remarks>
     /// <returns>A <see cref="EventResult"/>containing the results of the event that was not handled</returns>
-    protected virtual EventResult OnEventUnhandled()
+    public virtual EventResult OnEventUnhandled()
     {
         return EventResult.SuccessEventResult;
     }
@@ -262,7 +262,7 @@ public abstract partial class GitHubAppBase : IGitHubApp,
     /// </summary>
     /// <remarks>This method should be overwritten. Async is allowed.</remarks>
     /// <returns>A <see cref="EventResult"/>containing the results of the event/action that was not handled</returns>
-    protected virtual EventResult OnEventActionUnhandled()
+    public virtual EventResult OnEventActionUnhandled()
     {
         return EventResult.SuccessEventResult;
     }
