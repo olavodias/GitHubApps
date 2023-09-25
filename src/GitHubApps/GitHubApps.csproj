@@ -9,7 +9,7 @@
 
     <!-- Nuget Package Info -->
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.1</Version>
+    <Version>1.1.0</Version>
     <Authors>Olavo Henrique Dias</Authors>
     <Company>Olavo Henrique Dias</Company>
     <Product>GitHubApps</Product>
@@ -48,9 +48,9 @@
   </PropertyGroup>
   
   <Target Name="DisplayMessages" BeforeTargets="ResolveReferences">
-      <Message Text="Identifier.. = $(_FrameworkIdentifier)"/>
-      <Message Text="Temp........ = $(_TempFrameworkVersion)"/>
-      <Message Text="Version..... = $(_FrameworkVersion)"/>
+      <Message Text="Identifier.. = $(_FrameworkIdentifier)" />
+      <Message Text="Temp........ = $(_TempFrameworkVersion)" />
+      <Message Text="Version..... = $(_FrameworkVersion)" />
   </Target>
 
   <!-- General Nuget Packages -->
