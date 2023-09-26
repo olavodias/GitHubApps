@@ -1,4 +1,4 @@
-# GitHub Apps .NET (Core) - v1.1.0
+# GitHub Apps .NET (Core)
 
 [![nuget](https://img.shields.io/nuget/v/GitHubApps.svg)](https://www.nuget.org/packages/GitHubApps/) 
 ![GitHub release](https://img.shields.io/github/release/olavodias/GitHubApps.svg)
