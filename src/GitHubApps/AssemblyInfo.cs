@@ -26,5 +26,6 @@
 // *****************************************************************************
 using System.Runtime.CompilerServices;
 
-// Allow certain assemblies to see the methods decorated with the "internal" keyword
+// Allow certain assemblies to see the classes or methods decorated with the "internal" keyword
 [assembly: InternalsVisibleTo("GitHubApps.Testing")]
+[assembly: InternalsVisibleTo("GitHubApps.AspNetCore.Mvc.Testing")]
