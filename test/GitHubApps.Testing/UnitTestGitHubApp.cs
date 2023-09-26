@@ -43,7 +43,7 @@ public class UnitTestGitHubApp
     [TestMethod]
     public void TestProcessRequest()
     {
-        var gitHubApp = new GitHubApp();
+        var gitHubApp = new SampleGitHubApp();
         Assert.IsTrue(Directory.Exists("Payload"));
         var files = Directory.GetFiles("Payload", "*.json", SearchOption.AllDirectories);
 
