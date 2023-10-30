@@ -56,6 +56,19 @@ public abstract partial class GitHubAppBase : IGitHubApp,
         
 	}
 
+    #region Authentication (net6.0 and beyond only)
+
+#if HAS_GITHUBAUTH
+
+    /// <summary>
+    /// The object to perform authentication to the GitHub REST API
+    /// </summary>
+    public GitHubAuth.IAuthenticator? Authenticator { get; set; }
+
+#endif
+
+    #endregion Authentication (net6.0 and beyond only)
+
     #region Internal Methods
 
     /// <inheritdoc/>
