@@ -18,6 +18,7 @@ Refer to the [API Documentation](https://olavodias.github.io/GitHubApps) to have
 * [Usage](#usage)
   * [Creating your own GitHub App](#creating-your-own-github-app)
   * [Current Events](#current-events)
+  * [Communicating with the GitHub API](#communicating-with-the-github-api)
 * [Links](#links)
 
 ## Usage
@@ -82,6 +83,51 @@ This list contains the events that are currently implemented by this component.
 > If you need to handle an event that is not implement yet, you can do it by overwriting the method `OnEventUnhandled()` or `OnEventActionUnhandled()`.
 
 > All of the GitHub events that are not in this list are going to be implemented at some point. Check the [Project Roadmap](https://github.com/users/olavodias/projects/2/views/2) on the [Links](#links) section to see when it is likely to be delivered. Feel free to place an issue with your request in order to expedite its delivery.
+
+## Communicating with the GitHub API
+
+When your GitHub App is called, it is very likely that you will want to perform any action in GitHub.
+
+For example, every time a new Issue is created, you may want to, automatically, add a comment to it. In order to add a comment to an issue, you will need to use the GitHub REST API, and your GitHub App will need to have access to perform that.
+
+There are different ways to communicate with the GitHub REST API. You can use the following methods:
+
+* Use the [GitHubAuth](https://github.com/olavodias/GitHubAuth) [Nuget Package](https://www.nuget.org/packages/GitHubAuth/)
+* Use the [Octokit](https://github.com/octokit/octokit.net) [Nuget Package](https://www.nuget.org/packages/octokit/)
+
+The [GitHubAuth](https://github.com/olavodias/GitHubAuth) [Nuget Package](https://www.nuget.org/packages/GitHubAuth/) has the basic resources you need to access the API. It is also integrated with this library for projects targeting `net6.0` and beyond. Refer to the [GitHubAuth Repository](https://github.com/olavodias/GitHubAuth) to obtain more information on how to use it.
+
+The [Octokit](https://github.com/octokit/octokit.net) [Nuget Package](https://www.nuget.org/packages/octokit/) has more resources to facilitate the communication with the API. 
+
+In the example below, we will use the `GitHubAuth` library to respond to a event.
+
+```cs
+using GitHubApps;
+
+public class MyGitHubApp: GitHubAppBase
+{
+   public MyGitHubApp()
+   {
+       // Ideally, the Authenticator object comes from Dependency Injection
+       Authenticator = new GitHubAuth.AppAuthenticator("path_to_pem_file/pem_file.pem", 123456); // assuming 123456 is the GitHub App ID
+
+       // Implement the function to retrieve the HttpClient
+       Authenticator.GetClient = () => {
+           return new HttpClient();
+       }
+   }
+
+   public override EventResult OnEventInstallationCreated(GitHubDelivery<GitHubEventInstallation> payload)
+   {
+       // Retrieve the token to communicate with the API on behalf of the application installation id
+       var authData = Authenticator.GetToken<long>(payload.HookInstallationTargetID);
+
+       // Your code goes here...
+       // Use the token inside authData.Token to call the API.
+   }
+}
+
+```
 
 ## Links
 
