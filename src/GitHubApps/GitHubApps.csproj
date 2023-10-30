@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.0;netstandard1.3;netstandard2.0;net45;net46;net461;net462;net47;net471;net472;net48;net481;net6.0</TargetFrameworks>
+    <TargetFrameworks>netstandard1.0;netstandard1.3;netstandard2.0;net45;net46;net461;net462;net47;net471;net472;net48;net481;net6.0;net7.0</TargetFrameworks>
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>10.0</LangVersion>
@@ -9,7 +9,7 @@
 
     <!-- Nuget Package Info -->
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
     <Authors>Olavo Henrique Dias</Authors>
     <Company>Olavo Henrique Dias</Company>
     <Product>GitHubApps</Product>
@@ -34,7 +34,7 @@
 
   <ItemGroup>
       <None Include="packageIcon.png" Pack="true" PackagePath="\" />
-      <None Include="README.MD" Pack="true" PackagePath="\" />
+      <None Include="../../README.MD" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <!-- Parse Target Frameworks -->
@@ -71,6 +71,13 @@
   </PropertyGroup>
   <ItemGroup Condition="'$(_FrameworkIdentifier)' == 'netstandard' and '$(_FrameworkVersion)' &gt;= '200'">
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.1" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(_FrameworkIdentifier)' == 'net' and '$(_FrameworkVersion)' &gt;= '600'">
+    <DefineConstants>HAS_GITHUBAUTH</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup Condition="'$(_FrameworkIdentifier)' == 'net' and '$(_FrameworkVersion)' &gt;= '600'">
+    <PackageReference Include="GitHubAuth" Version="1.0.0" />
   </ItemGroup>
 
   <!-- Configuration Manager Settings -->
