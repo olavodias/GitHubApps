@@ -44,7 +44,7 @@ public sealed class GitHubLicense
     /// </summary>
     public string? Name { get; set; }
     /// <include file="documentation_shared.xml" path="Documentation/RepetitiveProperties/RepetitiveProperty[@name=NodeID]"/>
-    public int NodeID { get; set; }
+    public string? NodeID { get; set; }
     /// <summary>
     /// The SPDX ID
     /// </summary>
