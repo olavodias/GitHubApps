@@ -129,6 +129,10 @@ public static class GitHubHeaders
     /// </summary>
     public const string HEADERS_HUB_SIGNATURE_256 = "x-hub-signature-256";
     /// <summary>
+    /// The header key for a GitHub Hook ID
+    /// </summary>
+    public const string HEADERS_GITHUB_HOOK_ID = "x-github-hook-id";
+    /// <summary>
     /// The header signature for a GitHub hook installation target ID
     /// </summary>
     public const string HEADERS_GITHUB_HOOK_INSTALLATION_TARGET_ID = "x-github-hook-installation-target-id";

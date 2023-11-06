@@ -103,6 +103,10 @@ public abstract partial class GitHubAppBase : IGitHubApp,
                         payloadHeaders.HubSignature256 = headerValue;
                         break;
 
+                    case GitHubHeaders.HEADERS_GITHUB_HOOK_ID:
+                        payloadHeaders.HookID = long.Parse(headerValue);
+                        break;
+
                     case GitHubHeaders.HEADERS_GITHUB_HOOK_INSTALLATION_TARGET_ID:
                         payloadHeaders.HookInstallationTargetID = long.Parse(headerValue);
                         break;
